@@ -59,7 +59,7 @@
 
                             <div class="text-center">
                                 <p class="mb-0">Don't have an account?</p>
-                                <a href="register.php" class="btn btn-outline-success mt-2">Create an Account</a>
+                                <a href="../php/register.php" class="btn btn-outline-success mt-2">Create an Account</a>
                             </div>
 
                         </div>

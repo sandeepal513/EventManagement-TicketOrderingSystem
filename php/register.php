@@ -50,7 +50,7 @@
                                 }
                             ?>
 
-                            <form action="register_process.php" method="POST">
+                            <form action="./register_process.php" method="POST">
 
                                 <div class="mb-3">
                                     <label for="full_name" class="form-label">Full Name</label>
@@ -86,7 +86,7 @@
 
                                 <div class="text-center">
                                     <p class="mb-0">Already have an account? 
-                                        <a href="index.php">Login here</a>
+                                        <a href="../pages/index.php">Login here</a>
                                     </p>
                                 </div>
 
