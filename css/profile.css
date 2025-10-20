@@ -1,0 +1,489 @@
+/* Global Reset and Font */
+html {
+    font-family: 'Arial', sans-serif;
+    background-color: #e9eef2;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* -------------------------------------------
+ * LIGHT/DARK MODE STYLES
+ * ------------------------------------------- */
+
+/* Dark Mode Overrides - Applied when <html class="dark-mode"> */
+html.dark-mode {
+    background-color: #1a1a2e; /* Dark background for the whole page */
+    color: #e5e5f7; /* Light text for general elements */
+}
+
+html.dark-mode .container {
+    background-color: #1e1e30; /* Slightly lighter inner background */
+    border-color: #33334d;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+html.dark-mode .nav {
+    background-color: #3f51b5; /* Navigation bar color remains strong */
+    border-color: #3f51b5;
+}
+
+html.dark-mode .content {
+    background-color: #1e1e30;
+}
+
+html.dark-mode .content h1 {
+    color: #b5c7e0;
+    border-bottom-color: #33334d;
+}
+
+html.dark-mode .data-card {
+    background-color: #252a42;
+    border-color: #33334d;
+}
+
+html.dark-mode .data-card h2 {
+    color: #e5e5f7;
+}
+
+html.dark-mode table th {
+    color: #b5c7e0;
+}
+
+html.dark-mode table td {
+    color: #e5e5f7;
+}
+
+html.dark-mode .edit-profile-content {
+    background-color: #252a42;
+}
+
+/* Modal text color fix */
+html.dark-mode .form-group label {
+    color: #b5c7e0; 
+}
+
+html.dark-mode .form-group input {
+    background-color: #1a1a2e;
+    border-color: #33334d;
+    color: #e5e5f7;
+}
+
+/* -------------------------------------------
+ * MODAL (POPUP) STYLES
+ * ------------------------------------------- */
+.edit-profile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black backdrop */
+    z-index: 2000; /* Ensure it's on top of everything */
+    
+    /* Perfect Centering using Flexbox */
+    display: none; /* Default state: Hidden */
+    justify-content: center;
+    align-items: center;
+
+    /* Transition for smooth fade-in/out */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.edit-profile.is-visible {
+    display: flex; /* Show the backdrop */
+    opacity: 1;
+}
+
+.edit-profile-content {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    width: 450px; 
+    max-width: 90%;
+    
+    /* Animation for the content box (scale up on appear) */
+    transform: scale(0.95); 
+    transition: transform 0.3s ease-in-out;
+}
+
+.edit-profile.is-visible .edit-profile-content {
+    transform: scale(1); /* Zoom in when visible */
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 3rem;
+    cursor: pointer;
+    color: black;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: #f44336;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #3f51b5;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: center;
+}
+
+.save-btn {
+    background-color: #3f51b5;
+    color: white;
+    width: 200px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.save-btn:hover {
+    background-color: #303f9f;
+}
+
+/* * 1. CONTAINER: Main Flex Container 
+* Uses vh/vw to ensure it takes 95% of the screen size and is centered.
+*/
+.container {
+    height: 95vh; 
+    width: 95vw; 
+    margin: 2.5vh auto 0;
+    
+    background-color: white; 
+    border: 1px solid #c9d6e5;
+    border-radius: 12px;
+    
+
+    display: flex;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden; 
+}
+
+
+.nav { 
+    width: 20vw;
+    height: 100%;
+    background-color: #3f51b5; 
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    
+    display: flex;
+    flex-direction: column;
+    
+    border-radius: 12px 0 0 12px;
+}
+
+.nav-up {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+/* -------------------------------------------
+ * PROFILE PICTURE CONTAINER & HOVER EFFECT
+ * ------------------------------------------- */
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 10px; 
+    border: 3px solid white;
+    position: relative; 
+    overflow: hidden; 
+    cursor: pointer; 
+
+    background-size: cover;
+    background-position: center;
+    
+    transition: background 0.5s ease-in-out, border-color 0.5s ease-in-out; 
+}
+
+.profile-pic img {
+    width: 100%; 
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%; 
+    margin: 0; 
+    border: none; 
+    display: block;
+
+
+    transition: opacity 0.5s ease-in-out;
+}
+
+.profile-pic:hover {
+    background-image: url('./../res/img/images.png'); 
+    border-color: #FFC107;
+}
+
+.profile-pic:hover img {
+    opacity: 0;
+}
+/* -------------------------------------------
+ * END PROFILE PICTURE BLOCK
+ * ------------------------------------------- */
+
+.profile-info h2 {
+    font-size: 1.2rem;
+    margin: 0 0 5px 0;
+}
+
+.profile-info p {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin: 0;
+}
+
+
+.nav-down {
+    flex-grow: 1;
+}
+
+.nav-down h3 {
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.9;
+}
+
+.nav-down ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-down li {
+    margin-bottom: 8px;
+    flex-grow: 1; 
+}
+
+
+.nav-down a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 10px;
+    display: block;
+    border-radius: 6px;
+    transition: all 0.4s ease-out; 
+    
+    font-size: 1rem; 
+}
+
+.nav-down a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    margin-left: 10px;
+    font-size: 1.1rem;
+}
+
+/* Highlight the active link in the navigation */
+.nav-down a.active-nav {
+    background-color: rgba(255, 255, 255, 0.25);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* -------------------------------------------
+ * LOGOUT BUTTON STYLES (Specific Override)
+ * ------------------------------------------- */
+
+ .logout-btn {
+    margin-top:  50px;
+ }
+.logout-btn a:hover {
+    background-color: #f44336;
+}
+
+
+.content {
+    width: 80vw;
+    height: 100%;
+    padding: 30px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    
+    border-radius: 0 12px 12px 0;
+    overflow-y: auto; 
+}
+
+.content h1 {
+    color: #3f51b5;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+    margin-top: 0;
+}
+
+.data-card {
+    background-color: #f7f9fc;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.data-card h2 {
+    color: #555;
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+.data-card table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.data-card table tr {
+    line-height: 3.0rem;
+}
+
+.data-card table th, .data-card table td {
+    text-align: left;
+    padding: 10px;
+    padding-right: 5vw;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 1rem;
+}
+
+/* -------------------------------------------
+ * Notification/Theme Toggle Styles
+ * ------------------------------------------- */
+
+/* The block/track of the toggle switch */
+.not-b {
+    width: 50px;
+    height: 25px;
+    border: 2px solid #ccc;
+    background-color: #ccc;
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    transition: all 0.3s ease-in-out;
+}
+
+/* The orb/button of the toggle switch */
+.not-o {
+    width: 21px; 
+    height: 21px;
+    background-color: #777;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Notify/Theme ON State (uses .on class) */
+.not-b.on {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.not-b.on .not-o {
+    left: 27px; /* Move orb to the right */
+    background-color: white;
+}
+
+/* Notify style table used in settings views for layout */
+.notification-table tr {
+    line-height: 3.5rem;
+}
+
+
+
+/* -------------------------------------------
+ * CONTENT VIEW SWITCHING STYLES
+ * ------------------------------------------- */
+.content-view {
+    display: none; /* Hidden by default */
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.content-view.active {
+    display: block; /* Show active view */
+    opacity: 1;
+}
+
+/* Styles for Ticket Cards */
+.ticket-card {
+    border-left: 5px solid #FFC107; /* Highlight tickets */
+    margin-bottom: 20px;
+    padding-right: 150px; /* Make space for the button */
+    position: relative;
+}
+
+.ticket-card h2 {
+    color: #3f51b5;
+    font-size: 1.2rem;
+}
+
+.ticket-card p {
+    margin: 5px 0;
+    font-size: 0.95rem;
+}
+
+.view-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 0.9rem;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.view-btn:hover {
+    background-color: #45a049;
+}
