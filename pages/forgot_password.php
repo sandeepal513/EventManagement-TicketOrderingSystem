@@ -37,7 +37,7 @@
                                 Enter the email address associated with your account, and we'll send you a link to reset your password.
                             </p>
 
-                            <form action="send_reset_link.php" method="POST">
+                            <form action="../php/send_reset_link.php" method="POST">
 
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email address</label>
