@@ -31,11 +31,18 @@ if ($category) {
     $conditions[] = "category = '" . $conn->real_escape_string($category) . "'";
 }
 if ($date) {
-    $conditions[] = "date = '" . $conn->real_escape_string($date) . "'";
+    $conditions[] = "DATE(date) = '" . $conn->real_escape_string($date) . "'";
 }
+
 if ($location) {
-    $conditions[] = "location LIKE '%" . $conn->real_escape_string($location) . "%'";
+    $conditions[] = "LOWER(location) LIKE LOWER('%" . $conn->real_escape_string($location) . "%')";
 }
+
+/*if ($maxPrice) {
+    $conditions[] = "price BETWEEN 500 AND '" . $conn->real_escape_string($maxPrice) . "'";
+}*/
+
+// Price filter (fixed min 500)
 if ($maxPrice) {
     $conditions[] = "price BETWEEN 500 AND '" . $conn->real_escape_string($maxPrice) . "'";
 }
@@ -68,8 +75,9 @@ if ($result && $result->num_rows > 0) {
         echo '</div>';
     }
 } else {
-    echo "<p>No events found for the selected category.</p>";
+    echo "<p>No events found for the selected filters.</p>";
 }
+
 
 $conn->close();
 ?>

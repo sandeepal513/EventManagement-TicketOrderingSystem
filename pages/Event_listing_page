@@ -36,12 +36,12 @@
                 <label>
                     Select Date:
                     <input type="date" id="date-input">
-                    <button id="date-search">Search</button>
+                   <!-- <button id="date-search">Search</button> -->
                 </label>
                 <label>
                     Location:
                     <input type="text" id="location-input" placeholder="Any Location">
-                    <button id="location-search">Search</button>
+                    <!-- <button id="location-search">Search</button> -->
                 </label>
                 <label>
 					Category:
@@ -64,8 +64,8 @@
                         <span>500</span>
                         <span id="max-price-label">100000</span>
                     </div>
-                    <button id="price-search">Search</button>
                 </label>
+                <button id="search-button">Search</button>
             </div>
         </div>
         <div class="main">
@@ -108,7 +108,7 @@
     var url = '../php/event_list_php.php';
     var params = [];
 
-    if (category) params.push('category=' + encodeURIComponent(category));
+    /*if (category) params.push('category=' + encodeURIComponent(category));
     if (sort) params.push('sort=' + encodeURIComponent(sort));
     if (date) params.push('date=' + encodeURIComponent(date));
     if (location) params.push('location=' + encodeURIComponent(location));
@@ -116,7 +116,15 @@
 
     if (params.length > 0) {
         url += '?' + params.join('&');
-    }
+    }*/
+
+            params.push('category=' + encodeURIComponent(category));
+            params.push('sort=' + encodeURIComponent(sort));
+            params.push('date=' + encodeURIComponent(date));
+            params.push('location=' + encodeURIComponent(location));
+            params.push('maxPrice=' + encodeURIComponent(maxPrice));
+
+            url += '?' + params.join('&');
 
     fetch(url)
         .then(response => response.text())
@@ -148,20 +156,20 @@ document.getElementById('pop').addEventListener('click', function() {
 });
 
 // Location search
-    document.getElementById('location-search').addEventListener('click', function() {
+   /* document.getElementById('location-search').addEventListener('click', function() {
         var location = document.getElementById('location-input').value;
         loadEvents('', '', '', location);
-    });
+    });*/
 
 // Date search
-    document.getElementById('date-search').addEventListener('click', function() {
+    /*document.getElementById('search-button').addEventListener('click', function() {
         var date = document.getElementById('date-input').value;
         if (date) {
             loadEvents('', '', date);
         } else {
             alert('Please select a date.');
         }
-    });
+    });*/
 
 // Price slider functionality
     const priceSlider = document.getElementById('price-slider');
@@ -173,11 +181,61 @@ document.getElementById('pop').addEventListener('click', function() {
         maxPriceLabel.textContent = this.value;
     });
 
-// Price search button
-    document.getElementById('price-search').addEventListener('click', function() {
-        var maxPrice = document.getElementById('max-price').value;
+
+
+// Date search functionality
+document.getElementById('search-button').addEventListener('click', function() {
+    var selectedDate = document.getElementById('date-input').value;
+
+    if (selectedDate) {
+        // Call loadEvents with the selected date
+        loadEvents('', '', selectedDate); // category='', sort='', date=selectedDate
+    } else {
+        //alert('Please select a date before searching.');
+    }
+});
+
+// Location search using the search button
+document.getElementById('search-button').addEventListener('click', function() {
+    const location = document.getElementById('location-input').value;
+
+    if (location) {
+        loadEvents('', '', '', location); // category, sort, date are empty
+    } else {
+        //alert('Please enter a location.');
+    }
+});
+
+// Price search
+    document.getElementById('search-button').addEventListener('click', function() {
+        const maxPrice = document.getElementById('max-price').value;
         loadEvents('', '', '', '', maxPrice);
     });
+
+
+
+// Combined search: date, location, category, price range
+document.getElementById('search-button').addEventListener('click', function() {
+    const selectedDate = document.getElementById('date-input').value;
+    const location = document.getElementById('location-input').value;
+    const category = document.getElementById('category-filter').value;
+    const minPrice = document.getElementById('min-price') ? document.getElementById('min-price').value : '';
+    const maxPrice = document.getElementById('max-price') ? document.getElementById('max-price').value : '';
+
+    loadEvents(category, '', selectedDate, location, minPrice, maxPrice);
+});
+
+
+
+
+// Optional: main search bar (you can extend this to search by name/description)
+document.getElementById('main-search').addEventListener('click', function() {
+    const query = document.querySelector('.search-bar input').value.trim();
+    if(query){
+        // Implement server-side search by name or description
+        alert("Server-side search not implemented yet!");
+    }
+});
 
 </script>
 </body>
