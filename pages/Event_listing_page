@@ -87,7 +87,7 @@
             <h3>Company</h3>
             <a href="#" style="color: white; text-decoration: none;">Home</a>
             <a href="#" style="color: white; text-decoration: none;">About Us</a>
-            <a href="#" style="color: white; text-decoration: none;">Contact Us</a>
+            <a href="#" style="color: rgb(75, 67, 67); text-decoration: none;">Contact Us</a>
             <a href="#" style="color: white; text-decoration: none;">Services</a>
         </div>
         <div class="social">
@@ -102,32 +102,15 @@
             Copyright © 2025 by EventHub. All rights reserved.
         </div>
     </footer>
-	
 	<script>
-    //document.getElementById('category-filter').addEventListener('change', function() {
-       // var category = this.value;
-        // Reload the page with the selected category as a query parameter (or no parameter for all events)
-    //    window.location.href = window.location.pathname + (category ? '?category=' + encodeURIComponent(category) : '');
- //   });
- 
-    /*document.getElementById('category-filter').addEventListener('change', function() {
-        var category = this.value;
-        var url = 'back.php' + (category ? '?category=' + encodeURIComponent(category) : '');
-
-        fetch(url)
-            .then(response => response.text())
-            .then(html => {
-                document.querySelector('.events').innerHTML = html;
-            })
-            .catch(error => console.error('Error fetching events:', error));
-    });*/
-	
 	function loadEvents(category = '', sort = '',date = '',location = '') {
     var url = '../php/event_list_php.php';
     var params = [];
 
     if (category) params.push('category=' + encodeURIComponent(category));
     if (sort) params.push('sort=' + encodeURIComponent(sort));
+    if (date) params.push('date=' + encodeURIComponent(date));
+    if (location) params.push('location=' + encodeURIComponent(location));
 
     if (params.length > 0) {
         url += '?' + params.join('&');
@@ -161,6 +144,22 @@ document.getElementById('date').addEventListener('click', function() {
 document.getElementById('pop').addEventListener('click', function() {
     loadEvents('', 'pop');
 });
+
+// Location search
+    document.getElementById('location-search').addEventListener('click', function() {
+        var location = document.getElementById('location-input').value;
+        loadEvents('', '', '', location);
+    });
+
+// Date search
+    document.getElementById('date-search').addEventListener('click', function() {
+        var date = document.getElementById('date-input').value;
+        if (date) {
+            loadEvents('', '', date);
+        } else {
+            alert('Please select a date.');
+        }
+    });
 
 </script>
 </body>
