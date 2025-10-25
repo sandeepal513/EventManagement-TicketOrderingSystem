@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/event_listing_css">
+    <title>Event Planning Management</title>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">EventHub</div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Services</a></li>
+        </ul>
+        <div class="auth">
+            <button>Log In</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="sort-section">
+                <h2>Sort by</h2>
+                <div class="sort-buttons">
+                    <button id="date">Date</button>
+                    <button id="pop">Popularity</button>
+                    <button id="a-z">A-Z</button>
+                </div>
+            </div>
+            <div class="filter-section">
+                <h2>Filter</h2>
+                <label>
+                    Select Date:
+                    <input type="date" id="date-input">
+                    <button id="date-search">Search</button>
+                </label>
+                <label>
+                    Location:
+                    <input type="text" id="location-input" placeholder="Any Location">
+                    <button id="location-search">Search</button>
+                </label>
+                <label>
+					Category:
+					<select name="category" id="category-filter">
+						<option value="" selected>All</option>
+						<option value="Concert">Concert</option>
+						<option value="Conference">Conference</option>
+						<option value="Festival">Festival</option>
+						<option value="Music">Music</option>
+					</select>
+				</label>
+                <label>
+                    Price:
+                    <div class="price-range">
+                        <input type="number" min="500" value="500">
+                        <input type="number" max="1000000" value="1000000">
+                    </div>
+                    <input type="range" class="price-slider" min="500" max="1000000" value="500">
+                    <div class="price-labels">
+                        <span>500</span>
+                        <span>1000000</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+        <div class="main">
+            <h1>Explore Upcoming Events</h1>
+            <div class="search-bar">
+                <input type="text" placeholder="Search events">
+                <button>Search</button>
+            </div>
+            <div class="events">
+			<?php include '../php/event_list_php.php'; ?>
+			</div>
+        </div>
+    </div>
+	
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="logo">EventHub</div>
+        <div class="company-info">
+            <h3>Company</h3>
+            <a href="#" style="color: white; text-decoration: none;">Home</a>
+            <a href="#" style="color: white; text-decoration: none;">About Us</a>
+            <a href="#" style="color: white; text-decoration: none;">Contact Us</a>
+            <a href="#" style="color: white; text-decoration: none;">Services</a>
+        </div>
+        <div class="social">
+            <h3>Follow us</h3>
+            <div class="social-icons">
+                <a href="#">f</a>
+                <a href="#">t</a>
+                <a href="#">i</a>
+            </div>
+        </div>
+        <div class="copyright">
+            Copyright © 2025 by EventHub. All rights reserved.
+        </div>
+    </footer>
+	
+	<script>
+    //document.getElementById('category-filter').addEventListener('change', function() {
+       // var category = this.value;
+        // Reload the page with the selected category as a query parameter (or no parameter for all events)
+    //    window.location.href = window.location.pathname + (category ? '?category=' + encodeURIComponent(category) : '');
+ //   });
+ 
+    /*document.getElementById('category-filter').addEventListener('change', function() {
+        var category = this.value;
+        var url = 'back.php' + (category ? '?category=' + encodeURIComponent(category) : '');
+
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                document.querySelector('.events').innerHTML = html;
+            })
+            .catch(error => console.error('Error fetching events:', error));
+    });*/
+	
+	function loadEvents(category = '', sort = '',date = '',location = '') {
+    var url = '../php/event_list_php.php';
+    var params = [];
+
+    if (category) params.push('category=' + encodeURIComponent(category));
+    if (sort) params.push('sort=' + encodeURIComponent(sort));
+
+    if (params.length > 0) {
+        url += '?' + params.join('&');
+    }
+
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            document.querySelector('.events').innerHTML = html;
+        })
+        .catch(error => console.error('Error fetching events:', error));
+}
+
+// Load all events on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadEvents(); // load all
+});
+
+// Category filter
+document.getElementById('category-filter').addEventListener('change', function() {
+    loadEvents(this.value);
+});
+
+// Sort buttons
+document.getElementById('a-z').addEventListener('click', function() {
+    loadEvents('', 'a-z');
+});
+document.getElementById('date').addEventListener('click', function() {
+    loadEvents('', 'date');
+});
+document.getElementById('pop').addEventListener('click', function() {
+    loadEvents('', 'pop');
+});
+
+</script>
+</body>
+</html>
