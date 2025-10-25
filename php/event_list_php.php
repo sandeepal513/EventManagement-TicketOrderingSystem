@@ -15,7 +15,7 @@ $category = isset($_GET['category']) ? $_GET['category'] : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
 $date = isset($_GET['date']) ? $_GET['date'] : '';
 $location = isset($_GET['location']) ? $_GET['location'] : '';
-
+$maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : '';
 
 // SQL query
 //if ($category) {
@@ -35,6 +35,9 @@ if ($date) {
 }
 if ($location) {
     $conditions[] = "location LIKE '%" . $conn->real_escape_string($location) . "%'";
+}
+if ($maxPrice) {
+    $conditions[] = "price BETWEEN 500 AND '" . $conn->real_escape_string($maxPrice) . "'";
 }
 
 if (!empty($conditions)) {

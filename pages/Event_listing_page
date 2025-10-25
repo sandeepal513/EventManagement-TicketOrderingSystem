@@ -57,13 +57,14 @@
                     Price:
                     <div class="price-range">
                         <input type="number" min="500" value="500">
-                        <input type="number" max="1000000" value="1000000">
+                        <input type="number" max="100000" value="100000" id="max-price">
                     </div>
-                    <input type="range" class="price-slider" min="500" max="1000000" value="500">
+                    <input type="range" class="price-slider" min="500" max="100000" value="100000" id="price-slider" >
                     <div class="price-labels">
                         <span>500</span>
-                        <span>1000000</span>
+                        <span id="max-price-label">100000</span>
                     </div>
+                    <button id="price-search">Search</button>
                 </label>
             </div>
         </div>
@@ -103,7 +104,7 @@
         </div>
     </footer>
 	<script>
-	function loadEvents(category = '', sort = '',date = '',location = '') {
+	function loadEvents(category = '', sort = '',date = '',location = '',maxPrice = '') {
     var url = '../php/event_list_php.php';
     var params = [];
 
@@ -111,6 +112,7 @@
     if (sort) params.push('sort=' + encodeURIComponent(sort));
     if (date) params.push('date=' + encodeURIComponent(date));
     if (location) params.push('location=' + encodeURIComponent(location));
+    if (maxPrice) params.push('maxPrice=' + encodeURIComponent(maxPrice));
 
     if (params.length > 0) {
         url += '?' + params.join('&');
@@ -159,6 +161,22 @@ document.getElementById('pop').addEventListener('click', function() {
         } else {
             alert('Please select a date.');
         }
+    });
+
+// Price slider functionality
+    const priceSlider = document.getElementById('price-slider');
+    const maxPriceInput = document.getElementById('max-price');
+    const maxPriceLabel = document.getElementById('max-price-label');
+
+    priceSlider.addEventListener('input', function() {
+        maxPriceInput.value = this.value;
+        maxPriceLabel.textContent = this.value;
+    });
+
+// Price search button
+    document.getElementById('price-search').addEventListener('click', function() {
+        var maxPrice = document.getElementById('max-price').value;
+        loadEvents('', '', '', '', maxPrice);
     });
 
 </script>
