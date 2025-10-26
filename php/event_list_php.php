@@ -16,13 +16,7 @@ $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
 $date = isset($_GET['date']) ? $_GET['date'] : '';
 $location = isset($_GET['location']) ? $_GET['location'] : '';
 $maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : '';
-
-// SQL query
-//if ($category) {
-   // $sql = "SELECT * FROM events WHERE category = '" . $conn->real_escape_string($category) . "'";
-//} else {
-   // $sql = "SELECT * FROM events";
-//}
+$search = isset($_GET['search']) ? $_GET['search'] : '';
 
 $sql = "SELECT * FROM events";
 $conditions = [];
@@ -38,13 +32,14 @@ if ($location) {
     $conditions[] = "LOWER(location) LIKE LOWER('%" . $conn->real_escape_string($location) . "%')";
 }
 
-/*if ($maxPrice) {
-    $conditions[] = "price BETWEEN 500 AND '" . $conn->real_escape_string($maxPrice) . "'";
-}*/
-
 // Price filter (fixed min 500)
 if ($maxPrice) {
     $conditions[] = "price BETWEEN 500 AND '" . $conn->real_escape_string($maxPrice) . "'";
+}
+
+// Search by name
+if (!empty($search)) {
+    $conditions[] = "LOWER(name) LIKE '%" . strtolower($conn->real_escape_string($search)) . "%'";
 }
 
 if (!empty($conditions)) {
@@ -64,7 +59,7 @@ $result = $conn->query($sql);
 // Display results
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        echo '<div class="card">';
+        echo '<div class="card" data-event-id="' . htmlspecialchars($row['event_id']) . '">';
         echo '<img src="' . htmlspecialchars($row['image']) . '" alt="' . htmlspecialchars($row['name']) . '">';
         echo '<h3>' . htmlspecialchars($row['name']) . '</h3>';
         echo '<p>' . htmlspecialchars($row['description']) . '</p>';
