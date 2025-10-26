@@ -1,3 +1,23 @@
+<?php
+
+    session_start();
+
+    if (!isset($_SERVER['user_id'])) {
+        header("Location: ./login.php");
+    }
+
+    $userinfo_query = "SELECT * FROM users WHERE id = " . $_SESSION['user_id'];
+    $userinfo_result = mysqli_query($conn, $userinfo_query);
+    if ($userinfo_result && mysqli_num_rows($userinfo_result) > 0) {
+        $user = mysqli_fetch_assoc($userinfo_result);
+    } else {
+        // Handle user not found
+        echo "User not found.";
+        exit;
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,17 +37,17 @@
             <form>
                 <div class="form-group">
                     <label for="full_name">Full Name:</label>
-                    <input type="text" id="full_name" placeholder="Enter your full name" value="Sandeepa">
+                    <input type="text" id="full_name" placeholder="Enter your full name" value="<?php echo htmlspecialchars($user['full_name']); ?>">
                 </div>
                 
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" placeholder="Enter your email address" value="sandeepa.doe@example.com">
+                    <input type="email" id="email" placeholder="Enter your email address" value="<?php echo htmlspecialchars($user['email']); ?>">
                 </div>
                 
                 <div class="form-group">
                     <label for="phone">Phone Number:</label>
-                    <input type="tel" id="phone" placeholder="Enter your mobile no" value="(555) 123-4567">
+                    <input type="tel" id="phone" placeholder="Enter your mobile no" value="<?php echo htmlspecialchars($user['phone']); ?>">
                 </div>
                 
                 <div class="form-group">
@@ -63,7 +83,7 @@
                     <img src="https://placehold.co/100x100/A0B3C8/FFFFFF?text=P" alt="Profile Picture" class="img-pic">
                 </div>
                 <div class="profile-info">
-                    <h2>Sandeepa</h2>
+                    <h2><?php echo htmlspecialchars($user['full_name']); ?></h2>
                 </div>
             </div>
 
