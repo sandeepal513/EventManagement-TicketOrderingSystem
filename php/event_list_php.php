@@ -18,7 +18,7 @@ $location = isset($_GET['location']) ? $_GET['location'] : '';
 $maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : '';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-$sql = "SELECT * FROM events";
+$sql = "SELECT * FROM event_list";
 $conditions = [];
 
 if ($category) {
@@ -67,6 +67,12 @@ if ($result && $result->num_rows > 0) {
         echo '<p><strong>Category:</strong> ' . htmlspecialchars($row['category']) . '</p>';
         echo '<p><strong>Location:</strong> ' . htmlspecialchars($row['location']) . '</p>';
         echo '<p><strong>Price:</strong> ' . htmlspecialchars($row['price']) . '</p>';
+
+        //view button
+         echo '<form action="event_details.php" method="get">';
+         echo '<input type="hidden" name="event_id" value="' . htmlspecialchars($row['event_id']) . '">';
+         echo '<button type="submit" class="btn-view">View</button>';
+         echo '</form>';
         echo '</div>';
     }
 } else {

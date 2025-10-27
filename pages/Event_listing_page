@@ -47,10 +47,9 @@
 					Category:
 					<select name="category" id="category-filter">
 						<option value="" selected>All</option>
-						<option value="Concert">Concert</option>
-						<option value="Conference">Conference</option>
-						<option value="Festival">Festival</option>
+						<option value="Public">Public</option>
 						<option value="Music">Music</option>
+						<option value="Tech">Tech</option>
 					</select>
 				</label>
                 <label>
@@ -129,20 +128,15 @@
     }
 
     fetch(url)
-        .then(response => response.text())
-        .then(html => {
-            document.querySelector('.events').innerHTML = html;
+    .then(response => response.text())
+    .then(html => {
+        document.querySelector('.events').innerHTML = html;
+    })
+    .catch(error => console.error('Error fetching events:', error));
 
-            // Make event cards clickable
-            document.querySelectorAll('.card').forEach(card => {
-                card.addEventListener('click', function () {
-                    const eventId = this.getAttribute('data-event-id');
-                    window.location.href = 'event_page.php?event_id=' + encodeURIComponent(eventId);
-                });
-            });
-        })
-        .catch(error => console.error('Error fetching events:', error));
-}
+    }
+
+
 
 // Load all events on page load
 document.addEventListener('DOMContentLoaded', function() {
