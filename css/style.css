@@ -1,0 +1,208 @@
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #fafafa;
+      color: #222;
+    }
+     .db-value{
+      color: #757575;
+     }
+
+
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .top-header {
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .top-header a {
+      color: #555;
+      text-decoration: none;
+      margin-right: 10px;
+    }
+    .main-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+    .main-header img {
+      height: 50px;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      padding: 0;
+      margin: 0;
+    }
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+    }
+    .product-section {
+      background: #fff;
+      padding: 30px;
+      margin-top: 30px;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+    .product-grid img {
+      width: 100%;
+      border-radius: 5px;
+    }
+    .product-info {
+      flex: 1;
+      min-width: 250px;
+    }
+    .product-info h1 {
+      margin-top: 0;
+    }
+    .price {
+      font-size: 24px;
+      color: #e91e63;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    button {
+      background: #2b6cb0;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .related {
+      margin-top: 50px;
+    }
+    .related h2 {
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 10px;
+    }
+    .related-items {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .related-item {
+      flex: 1 1 200px;
+      background: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    .related-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+    footer {
+      margin-top: 60px;
+      background: #111;
+      color: #ccc;
+      padding: 30px 0;
+      font-size: 14px;
+    }
+    footer a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    footer .social i {
+      margin-right: 5px;
+    }
+
+
+    /* Carousel Styles */
+.carousel-container {
+  position: relative;
+  margin-top: 40px;
+  overflow: hidden;
+}
+
+.carousel {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+  flex: 0 0 200px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-align: center;
+  overflow: hidden;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+
+.carousel-item p {
+  padding: 10px;
+  font-weight: 600;
+  color: #333;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+.carousel-btn:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+.carousel-btn.prev { left: 10px; }
+.carousel-btn.next { right: 10px; }
+
+  .add_cart_btn{
+           /* Initial state: white bg, orange border, orange text */
+            background-color: white;
+            color: #ff6600;
+            border: 2px solid #ff6600;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 0; /* Square corners as in your image */
+            transition: all 0.3s ease;
+            outline: none;
+  }
+
+  .add_cart_btn:hover {
+            /* Active state (after click) */
+            background-color: #ff6600;
+            color: white;
+            border: 2px solid  #ff6600; /* Keeps border consistent */
+        }
