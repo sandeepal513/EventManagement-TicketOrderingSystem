@@ -1,0 +1,19 @@
+{
+    "name": "lsand/event-copy",
+    "autoload": {
+        "psr-4": {
+            "Lsand\\EventCopy\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "sandeepal513",
+            "email": "sandeepal513@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^7.0",
+        "dompdf/dompdf": "^3.1",
+        "endroid/qr-code": "^6.0"
+    }
+}
