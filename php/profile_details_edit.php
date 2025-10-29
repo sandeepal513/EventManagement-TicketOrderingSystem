@@ -142,3 +142,6 @@
     // where they can see the success or error message.
     header("Location: " . $profile_page);
     exit(); 
+
+
+    ?>

@@ -38,6 +38,10 @@
     // Close the statement
     mysqli_stmt_close($stmt);
 
+    // Get notification preferences (add after $user = mysqli_fetch_assoc($result);)
+    $email_alerts = isset($user['email_alerts']) ? (int)$user['email_alerts'] : 0;
+    $sms_alerts = isset($user['sms_alerts']) ? (int)$user['sms_alerts'] : 0;
+
     // If user not found (shouldn't happen if ID is good, but good practice)
     if (!$user) {
         header("Location: ./../php/login.php?error=user_not_found");
@@ -151,8 +155,16 @@
 
             <form action="./../php/profile_pic_update.php" method="post" id="imageUploadForm" enctype="multipart/form-data">
                 <div class="image-upload-area">
-                    <div class="image-preview-container">
-                        <img src="<?php echo $profile_pic_src; ?>" alt="Current Profile" id="imagePreview" class="profile-preview">
+                    <?php if ($profile_pic_src === "./../res/profile_pic/default_profile.png"): ?>
+                        <div class="image-preview-container1">
+                            <img src="<?php echo $profile_pic_src; ?>" alt="Current Profile" id="imagePreview" class="profile-preview">
+                    <?php else: ?>
+                        <div class="image-preview-container2">
+                            <a href="./../php/profile_pic_delete.php">
+                                <img src="<?php echo $profile_pic_src; ?>" alt="Current Profile" id="imagePreview" class="profile-preview">
+                            </a>
+                    <?php endif; ?>
+                        
                     </div>
                     <div class="file-drop-zone" id="fileDropZone">
                         <p class="drop-text">Drag & drop image here or</p>
@@ -193,7 +205,7 @@
                     <li><a href="#" data-view="paymentMethodView" id="paymentMethodLink">Payment Method</a></li>
                     <li><a href="#" data-view="notificationSettingView" id="notificationSettingLink">Notification Setting</a></li>
                     <li><a href="#" data-view="settingsView" id="settingsLink">Settings</a></li>
-                    <li class="logout-btn"><a href="#">Logout</a></li>
+                    <li class="logout-btn"><a href="./../php/logout.php">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -246,13 +258,33 @@
                 </div>
             </div>
             
+            <!-- Placeholder Views for consistency (Notification, Settings) -->
+            
             <div id="notificationSettingView" class="content-view">
                 <h1>Notification Settings</h1>
-                <p>Control how and when you receive notifications.</p>
+                <p>Control how and when you receive system alerts.</p>
                 <div class="data-card">
                     <table>
-                        <tr><th>Email Alerts: </th><td><div class="not-b" id="emailToggle"><div class="not-o"></div></div></td></tr>
-                        <tr><th>SMS Alerts: </th><td><div class="not-b" id="smsToggle"><div class="not-o"></div></div></td></tr>
+                        <tr>
+                            <th>Email Alerts: </th>
+                            <td>
+                                <div class="not-b<?php echo $email_alerts ? ' on' : ''; ?>" 
+                                    id="emailToggle" 
+                                    data-toggle-type="email_alerts">
+                                    <div class="not-o"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>SMS Alerts: </th>
+                            <td>
+                                <div class="not-b<?php echo $sms_alerts ? ' on' : ''; ?>" 
+                                    id="smsToggle" 
+                                    data-toggle-type="sms_alerts">
+                                    <div class="not-o"></div>
+                                </div>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>

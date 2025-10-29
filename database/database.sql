@@ -11,6 +11,8 @@ CREATE TABLE users (
     phone VARCHAR(15),
     role ENUM('user', 'organizer', 'admin') DEFAULT 'user',
     profile_picture VARCHAR(512),
+    email_alerts TINYINT(1) DEFAULT 0,
+    sms_alerts TINYINT(1) DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

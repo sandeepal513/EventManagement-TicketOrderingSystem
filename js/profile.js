@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Navigation and Content
     const contentViews = document.querySelectorAll('.content-view');
-    const navLinks = document.querySelectorAll('.nav-down a');
+    // Selects all links in the nav menu
+    const navLinks = document.querySelectorAll('.nav-down a'); 
     const themeToggleBtn = document.getElementById('themeToggle');
 
     // Image Upload Elements
@@ -25,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('imageFileInput');
     const selectBtn = document.getElementById('selectImageBtn');
     const imagePreview = document.getElementById('imagePreview');
-    const removeImageBtn = document.getElementById('removeImageBtn'); // Reference for the new button
+    const removeImageBtn = document.getElementById('removeImageBtn');
 
 
     // --- 2. CORE FUNCTIONS ---
@@ -105,6 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const openDetailsModal = () => {
         modal.classList.add('is-visible');
+        // Clear the flag when opening manually
+        sessionStorage.removeItem('modalShouldReopen');
     };
 
     const closeDetailsModal = () => {
@@ -113,19 +116,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const openImageModal = () => {
         imgModal.classList.add('is-visible');
+        // Clear the flag when opening manually
+        sessionStorage.removeItem('imageModalShouldReopen');
     };
 
     const closeImageModal = () => {
         imgModal.classList.remove('is-visible');
     };
     
-    // --- Notification Toggle ---
+    // --- NEW: Check if modals should reopen after error ---
+    const checkAndReopenModal = () => {
+        // Check if there's an error or success message displayed
+        const errorAlert = document.querySelector('.alert-error');
+        const successAlert = document.querySelector('.alert-success');
+        
+        // Get the flags
+        const shouldReopenDetails = sessionStorage.getItem('modalShouldReopen');
+        const shouldReopenImage = sessionStorage.getItem('imageModalShouldReopen');
+        
+        // Only reopen if there's an ERROR (not success)
+        if (errorAlert && shouldReopenDetails === 'true') {
+            openDetailsModal();
+        }
+        
+        if (errorAlert && shouldReopenImage === 'true') {
+            openImageModal();
+        }
+        
+        // Always clear the flags after checking (whether we reopened or not)
+        sessionStorage.removeItem('modalShouldReopen');
+        sessionStorage.removeItem('imageModalShouldReopen');
+    };
 
+    // --- Notification Toggle ---
     function toggleNotification(toggleElement) {
         toggleElement.classList.toggle('on');
         const isNowActive = toggleElement.classList.contains('on');
-        const toggleId = toggleElement.id;
-        console.log(`Toggle ${toggleId} is now: ${isNowActive ? 'ON' : 'OFF'}`);
+        const toggleType = toggleElement.getAttribute('data-toggle-type');
+        
+        if (!toggleType) return; // Skip if no toggle type (like theme toggle)
+        
+        // Send update to server
+        fetch('./../php/notification_toggle_update.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                toggle_type: toggleType,
+                value: isNowActive
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log(`${toggleType} updated: ${isNowActive ? 'ON' : 'OFF'}`);
+            } else {
+                // Revert toggle on failure
+                toggleElement.classList.toggle('on');
+                console.error('Failed to update notification preference:', data.message);
+            }
+        })
+        .catch(error => {
+            // Revert toggle on error
+            toggleElement.classList.toggle('on');
+            console.error('Error updating notification preference:', error);
+        });
     }
 
     // --- Image Upload Logic ---
@@ -148,11 +204,72 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- NEW: Remove Image Function ---
+    // --- NEW: Delete Profile Image with Confirmation ---
+    const deleteProfileImage = (event) => {
+        event.preventDefault(); // Prevent the default link action
+        event.stopPropagation(); // Stop the event from bubbling up
+        
+        // Create and show custom confirmation modal
+        showDeleteConfirmationModal();
+    };
+
+    // --- NEW: Show Advanced Delete Confirmation Modal ---
+    const showDeleteConfirmationModal = () => {
+        // Create modal HTML
+        const confirmModal = document.createElement('div');
+        confirmModal.className = 'delete-confirm-modal';
+        confirmModal.innerHTML = `
+            <div class="delete-confirm-content">
+                <div class="delete-confirm-icon">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </div>
+                <h2>Delete Profile Picture?</h2>
+                <p>Are you sure you want to delete your profile picture? This action cannot be undone and your picture will be replaced with the default image.</p>
+                <div class="delete-confirm-buttons">
+                    <button class="cancel-delete-btn" id="cancelDeleteBtn">Cancel</button>
+                    <button class="confirm-delete-btn" id="confirmDeleteBtn">Yes, Delete</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(confirmModal);
+        
+        // Trigger animation
+        setTimeout(() => confirmModal.classList.add('is-visible'), 10);
+        
+        // Handle Cancel button
+        document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
+            closeDeleteConfirmationModal(confirmModal);
+        });
+        
+        // Handle Confirm button
+        document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
+            closeDeleteConfirmationModal(confirmModal);
+            // Proceed with deletion
+            window.location.href = './../php/profile_pic_delete.php';
+        });
+        
+        // Handle click outside modal to close
+        confirmModal.addEventListener('click', (e) => {
+            if (e.target === confirmModal) {
+                closeDeleteConfirmationModal(confirmModal);
+            }
+        });
+    };
+
+    // --- NEW: Close Delete Confirmation Modal ---
+    const closeDeleteConfirmationModal = (modal) => {
+        modal.classList.remove('is-visible');
+        setTimeout(() => modal.remove(), 300); // Remove after animation
+    };
+
+    // --- Remove Image Function (keeping for backward compatibility) ---
     const removeProfileImage = () => {
-        // Use a custom modal instead of alert/confirm in production
         if (confirm('Are you sure you want to remove your profile photo and revert to the default?')) {
-            // Create a temporary form to submit the remove action
             const tempForm = document.createElement('form');
             tempForm.method = 'POST';
             tempForm.action = './../php/profile_pic_update.php';
@@ -165,7 +282,6 @@ document.addEventListener('DOMContentLoaded', () => {
             tempForm.appendChild(actionInput);
             document.body.appendChild(tempForm);
             
-            // Submit the form to PHP
             tempForm.submit();
         }
     };
@@ -185,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // --- Notification Toggles ---
         document.querySelectorAll('.not-b').forEach(toggle => {
-            if (toggle.id !== THEME_KEY + 'Toggle') { // Exclude the theme toggle itself
+            if (toggle.id !== THEME_KEY + 'Toggle') {
                 toggle.addEventListener('click', (e) => {
                     toggleNotification(e.currentTarget);
                 });
@@ -196,10 +312,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if(profiledtl) profiledtl.addEventListener('click', openDetailsModal);
         if(closeModalBtn) closeModalBtn.addEventListener('click', closeDetailsModal);
         
+        // --- MODIFIED: Set flag before form submission ---
         if (modalContent) {
-            modalContent.querySelector('form').addEventListener('submit', () => {
-                closeDetailsModal(); 
-            });
+            const detailsForm = modalContent.querySelector('form');
+            if (detailsForm) {
+                detailsForm.addEventListener('submit', () => {
+                    // Set a flag in sessionStorage to know we should reopen the modal if there's an error
+                    sessionStorage.setItem('modalShouldReopen', 'true');
+                    // Don't close the modal here - let it close naturally on redirect
+                });
+            }
         }
 
 
@@ -207,24 +329,30 @@ document.addEventListener('DOMContentLoaded', () => {
         if(profilepic) profilepic.addEventListener('click', openImageModal);
         if(imgCloseBtn) imgCloseBtn.addEventListener('click', closeImageModal);
         
-        // Image Upload Form Submission: Allow native submission
+        // --- MODIFIED: Set flag before image form submission ---
         if(imageUploadForm) {
             imageUploadForm.addEventListener('submit', (e) => {
+                // Set a flag in sessionStorage to know we should reopen the modal if there's an error
+                sessionStorage.setItem('imageModalShouldReopen', 'true');
                 console.log('Profile Image Form Submission initiated.');
             });
         }
 
-        // NEW: Remove Image Button Listener
         if (removeImageBtn) {
             removeImageBtn.addEventListener('click', removeProfileImage);
         }
+        
+        // --- NEW: Delete Profile Image Confirmation ---
+        // Find the delete link in the image preview container
+        const deleteImageLink = document.querySelector('.image-preview-container2 a');
+        if (deleteImageLink) {
+            deleteImageLink.addEventListener('click', deleteProfileImage);
+        }
 
-        // Button to open file selector
         if(selectBtn) {
             selectBtn.addEventListener('click', () => fileInput.click());
         }
 
-        // File input change
         if(fileInput) {
             fileInput.addEventListener('change', (e) => {
                 if (e.target.files.length > 0) {
@@ -254,19 +382,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dt = e.dataTransfer;
                 const file = dt.files[0];
                 if (file) {
-                    // Set the file directly to the input field
                     fileInput.files = dt.files; 
                     handleFile(file);
                 }
             }, false);
         }
         
-        // --- Navigation View Switching ---
+        // --- (FIXED) Navigation View Switching ---
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault();
+                // Get the target view ID
                 const targetViewId = e.target.getAttribute('data-view');
+                
+                // ONLY prevent default if the link has a data-view attribute
                 if (targetViewId) {
+                    e.preventDefault();
                     switchContentView(targetViewId, e.target);
                 }
             });
@@ -274,6 +404,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // --- Final Load ---
         loadActiveView();
+        
+        // --- NEW: Check if modal should reopen after page load ---
+        checkAndReopenModal();
     }
     
     // Initialize everything
@@ -287,7 +420,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert.classList.add('hide');
         }, 4000);
 
-        // Click on × to close immediately
         alert.addEventListener('click', (e) => {
             if (e.target === alert || e.target.textContent === '×') {
                 alert.classList.add('hide');
