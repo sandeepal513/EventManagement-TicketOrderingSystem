@@ -1,0 +1,455 @@
+/* ===== GENERAL STYLES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ===== STEP INDICATOR ===== */
+.step-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.step.active {
+    opacity: 1;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #d1d5db;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.step.active .step-number {
+    background: #9333ea;
+    color: white;
+}
+
+.step-line {
+    width: 60px;
+    height: 3px;
+    background: #d1d5db;
+    margin-bottom: 48px;
+}
+
+.step-line.active {
+    background: #9333ea;
+}
+
+/* ===== SUCCESS BANNER ===== */
+.success-banner {
+    background: linear-gradient(135deg, #4ade80 0%, #10b981 100%);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    color: white;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+
+.success-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    margin: 0 auto 15px;
+}
+
+.success-banner h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.success-banner p {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+/* ===== LAYOUT ===== */
+.confirmation-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 30px;
+}
+
+.confirmation-main {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.confirmation-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+/* ===== CARD STYLES ===== */
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #1f2937;
+}
+
+.card p.subtitle {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 15px;
+}
+
+/* ===== CONFIRMATION DETAILS ===== */
+.details-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.details-row:last-child {
+    border-bottom: none;
+}
+
+.details-row .label {
+    color: #6b7280;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.code-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.code-container code {
+    background: #f3f4f6;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: #9333ea;
+    font-size: 14px;
+}
+
+.copy-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.copy-btn:hover {
+    background: #e5e7eb;
+}
+
+.details-row .amount {
+    font-weight: 700;
+    font-size: 16px;
+    color: #9333ea;
+}
+
+/* ===== TICKET ITEMS ===== */
+.ticket-item {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #f3e8ff 0%, #dbeafe 100%);
+}
+
+.ticket-item:last-child {
+    margin-bottom: 0;
+}
+
+.ticket-info h4 {
+    font-size: 15px;
+    color: #9333ea;
+    margin-bottom: 4px;
+}
+
+.ticket-info p {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.ticket-price {
+    font-weight: 700;
+    font-size: 16px;
+    color: #1f2937;
+}
+
+/* ===== QR CODES ===== */
+.tickets-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.ticket-qr {
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    background: #f9fafb;
+    transition: all 0.3s;
+}
+
+.ticket-qr:hover {
+    border-color: #9333ea;
+    box-shadow: 0 4px 8px rgba(147, 51, 234, 0.1);
+}
+
+.qr-placeholder {
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(135deg, #e9d5ff 0%, #dbeafe 100%);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #7e22ce;
+    margin-bottom: 12px;
+}
+.qr-code {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.attendee-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+
+.attendee-email {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* ===== INFO CARD ===== */
+.info-card {
+    background: #dbeafe;
+    border-left: 4px solid #3b82f6;
+}
+
+.info-card h3 {
+    color: #1e40af;
+}
+
+.steps-list {
+    list-style: none;
+    padding: 0;
+}
+
+.steps-list li {
+    font-size: 14px;
+    color: #1e40af;
+    padding: 8px 0;
+    font-weight: 500;
+}
+
+/* ===== BUTTONS ===== */
+.btn-secondary {
+    background: #6b7280;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: inherit;
+}
+
+.btn-secondary:hover {
+    background: #4b5563;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-block {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btn-block:last-child {
+    margin-bottom: 0;
+}
+
+/* ===== EVENT DETAILS ===== */
+.event-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+/* ===== SUPPORT CARD ===== */
+.support-card {
+    text-align: center;
+    background: #f3f4f6;
+}
+
+.support-text {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+.support-link {
+    color: #9333ea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.support-link:hover {
+    color: #7e22ce;
+    text-decoration: underline;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .confirmation-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .confirmation-sidebar {
+        position: static;
+    }
+
+    .tickets-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .success-banner {
+        padding: 30px;
+    }
+
+    .success-banner h1 {
+        font-size: 24px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .code-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .step-indicator {
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .step-number {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .success-banner {
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+
+    .success-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 32px;
+    }
+
+    .success-banner h1 {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .success-banner p {
+        font-size: 14px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .card h3 {
+        font-size: 16px;
+    }
+
+    .details-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}

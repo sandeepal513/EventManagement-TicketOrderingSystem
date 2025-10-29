@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - Event Ticketing System</title>
+    <link rel="stylesheet" href="./../css/confirmation.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+            <div class="step active">
+                <div class="step-number">1</div>
+                <span>Checkout</span>
+            </div>
+            <div class="step-line active"></div>
+            <div class="step active">
+                <div class="step-number">2</div>
+                <span>Confirmation</span>
+            </div>
+        </div>
+
+        <!-- Success Banner -->
+        <div class="success-banner">
+            <div class="success-icon">✓</div>
+            <h1>Purchase Successful! 🎉</h1>
+            <p>Your tickets have been confirmed</p>
+        </div>
+
+        <div class="confirmation-wrapper">
+            <!-- Left Column -->
+            <div class="confirmation-main">
+
+                <!-- Confirmation Details -->
+                <div class="card">
+                    <h3>Confirmation Details</h3>
+                    <div class="details-row">
+                        <span class="label">Confirmation Code</span>
+                        <div class="code-container">
+                            <code id="confirmCode">TECH1A2B3C4D</code>
+                            <button class="copy-btn" onclick="copyToClipboard()">📋 Copy</button>
+                        </div>
+                    </div>
+                    <div class="details-row">
+                        <span class="label">Order Date</span>
+                        <span><?php echo date('M d, Y'); ?></span>
+                    </div>
+                    <div class="details-row">
+                        <span class="label">Total Amount</span>
+                        <span class="amount">$284.97</span>
+                    </div>
+                </div>
+
+                <!-- Ticket Summary -->
+                <div class="card">
+                    <h3>Your Tickets</h3>
+                    <div class="ticket-item">
+                        <div class="ticket-info">
+                            <h4>Early Bird Ticket</h4>
+                            <p>Qty: 2</p>
+                        </div>
+                        <span class="ticket-price">$99.98</span>
+                    </div>
+                    <div class="ticket-item">
+                        <div class="ticket-info">
+                            <h4>VIP Ticket</h4>
+                            <p>Qty: 1</p>
+                        </div>
+                        <span class="ticket-price">$149.99</span>
+                    </div>
+                </div>
+
+                <!-- Digital Tickets / QR Codes -->
+                <div class="card">
+                    <h3>Digital Tickets</h3>
+                    <p class="subtitle">Each attendee has a unique ticket. Present it at the event entrance.</p>
+                    <div class="tickets-grid">
+                        <div class="ticket-qr">
+                            <div class="qr-placeholder">
+                                📱 QR CODE
+                            </div>
+                            <p class="attendee-name">John Doe</p>
+                            <p class="attendee-email">john@example.com</p>
+                        </div>
+                        <div class="ticket-qr">
+                            <div class="qr-placeholder">
+                                📱 QR CODE
+                            </div>
+                            <p class="attendee-name">Jane Smith</p>
+                            <p class="attendee-email">jane@example.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next Steps -->
+                <div class="card info-card">
+                    <h3>ℹ️ Next Steps</h3>
+                    <ul class="steps-list">
+                        <li>✓ Check your email ticket details and QR codes</li>
+                        <li>✓ Download tickets to your device or add to your wallet</li>
+                        <li>✓ Arrive 15 minutes early on the event date</li>
+                        <li>✓ Show your QR code at the entrance for check-in</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Right Column - Sidebar -->
+            <div class="confirmation-sidebar">
+
+                <!-- Download Options -->
+                <div class="card">
+                    <h3>Download Your Tickets</h3>
+                    <button class="btn-secondary btn-block">📥 Download PDF</button>
+                    <button class="btn-secondary btn-block">📧 Email to Me</button>
+                </div>
+
+                <!-- Event Details -->
+                <div class="card">
+                    <h3>Tech Summit 2025</h3>
+                    <div class="event-details">
+                        <p>🗓️ March 15, 2025</p>
+                        <p>📍 Convention Center</p>
+                        <p>🕐 10:00 AM</p>
+                    </div>
+                </div>
+
+                <!-- Support -->
+                <div class="card support-card">
+                    <p class="support-text">Need help?</p>
+                    <a href="contact.php" class="support-link">Contact Support →</a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- <script src="./../js/confirmation.js"></script> -->
+</body>
+</html>

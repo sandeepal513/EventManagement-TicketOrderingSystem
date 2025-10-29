@@ -101,14 +101,14 @@ CREATE TABLE contact_messages (
 
 
 -- 10. forget password table 
-CRAETE TABLE IF NOT EXISTS password_resets {
+CREATE TABLE password_resets (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     reset_token VARCHAR(255) NOT NULL UNIQUE,
     expires_at TIMESTAMP NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-}
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
 
 -- 11. feedback table
 CREATE TABLE feedback (
