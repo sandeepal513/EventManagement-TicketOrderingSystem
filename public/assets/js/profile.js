@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imgModal.classList.remove('is-visible');
     };
     
-    // --- NEW: Check if modals should reopen after error ---
+    // --- Check if modals should reopen after error ---
     const checkAndReopenModal = () => {
         // Check if there's an error or success message displayed
         const errorAlert = document.querySelector('.alert-error');
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!toggleType) return; // Skip if no toggle type (like theme toggle)
         
         // Send update to server
-        fetch('./../../../app/controllers/notification_toggle_update.php', {
+        fetch('/EMS_version_01/EventManagement-TicketOrderingSystem/app/controllers/notification_toggle_update.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- NEW: Delete Profile Image with Confirmation ---
+    // --- Delete Profile Image with Confirmation ---
     const deleteProfileImage = (event) => {
         event.preventDefault(); // Prevent the default link action
         event.stopPropagation(); // Stop the event from bubbling up
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showDeleteConfirmationModal();
     };
 
-    // --- NEW: Show Advanced Delete Confirmation Modal ---
+    // --- Show Advanced Delete Confirmation Modal ---
     const showDeleteConfirmationModal = () => {
         // Create modal HTML
         const confirmModal = document.createElement('div');
@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
             closeDeleteConfirmationModal(confirmModal);
             // Proceed with deletion
-            window.location.href = './../../../app/controllers/profile_pic_delete.php';
+            window.location.href = '/EMS_version_01/EventManagement-TicketOrderingSystem/app/controllers/profile_pic_delete.php?confirm=delete';
         });
         
         // Handle click outside modal to close
@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- NEW: Close Delete Confirmation Modal ---
+    // --- Close Delete Confirmation Modal ---
     const closeDeleteConfirmationModal = (modal) => {
         modal.classList.remove('is-visible');
         setTimeout(() => modal.remove(), 300); // Remove after animation
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (confirm('Are you sure you want to remove your profile photo and revert to the default?')) {
             const tempForm = document.createElement('form');
             tempForm.method = 'POST';
-            tempForm.action = './../../../app/controllers/profile_pic_update.php';
+            tempForm.action = '/EMS_version_01/EventManagement-TicketOrderingSystem/app/controllers/profile_pic_update.php';
 
             const actionInput = document.createElement('input');
             actionInput.type = 'hidden';
@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(profiledtl) profiledtl.addEventListener('click', openDetailsModal);
         if(closeModalBtn) closeModalBtn.addEventListener('click', closeDetailsModal);
         
-        // --- MODIFIED: Set flag before form submission ---
+        // --- Set flag before form submission ---
         if (modalContent) {
             const detailsForm = modalContent.querySelector('form');
             if (detailsForm) {
@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(profilepic) profilepic.addEventListener('click', openImageModal);
         if(imgCloseBtn) imgCloseBtn.addEventListener('click', closeImageModal);
         
-        // --- MODIFIED: Set flag before image form submission ---
+        // --- Set flag before image form submission ---
         if(imageUploadForm) {
             imageUploadForm.addEventListener('submit', (e) => {
                 // Set a flag in sessionStorage to know we should reopen the modal if there's an error
@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
             removeImageBtn.addEventListener('click', removeProfileImage);
         }
         
-        // --- NEW: Delete Profile Image Confirmation ---
+        // --- Delete Profile Image Confirmation ---
         // Find the delete link in the image preview container
         const deleteImageLink = document.querySelector('.image-preview-container2 a');
         if (deleteImageLink) {
@@ -388,7 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }, false);
         }
         
-        // --- (FIXED) Navigation View Switching ---
+        // --- Navigation View Switching ---
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 // Get the target view ID
@@ -405,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- Final Load ---
         loadActiveView();
         
-        // --- NEW: Check if modal should reopen after page load ---
+        // --- Check if modal should reopen after page load ---
         checkAndReopenModal();
     }
     

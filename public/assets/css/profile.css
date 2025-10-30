@@ -1,4 +1,3 @@
-/* Global Reset and Font */
 html {
     font-family: 'Arial', sans-serif;
     background-color: #e9eef2;
@@ -171,7 +170,7 @@ html.dark-mode .file-hint {
 }
 
 .image-preview-container2:hover {
-    background-image: url('./../res/img/delete_icon.png');
+    background-image: url('/EMS_version_01/EventManagement-TicketOrderingSystem/public/assets/images/sys_img/delete_icon.png');
     background-size: 50%;
     background-repeat: no-repeat;
     background-position: center;
@@ -179,7 +178,7 @@ html.dark-mode .file-hint {
     border-color: #060606;
 }
 
-.image-preview-container2:hover .profile-preview {
+.image-preview-container2 .profile-preview:hover {
     opacity: 0;
 }
 
@@ -408,7 +407,7 @@ html.dark-mode .file-drop-zone.highlight {
 }
 
 .profile-pic:hover {
-    background-image: url('./../res/img/images.png'); 
+    background-image: url('/EMS_version_01/EventManagement-TicketOrderingSystem/public/assets/images/sys_img/camera_icon.png');
     border-color: #FFC107;
 }
 
@@ -799,7 +798,7 @@ html.dark-mode .file-drop-zone.highlight {
     transform: scale(1.1);
 }
 
-/* Optional: replace 👁 with a more styled icon (optional font awesome or emoji) */
+/* Optional: replace with a more styled icon (optional font awesome or emoji) */
 .toggle-password.active {
     color: #007bff;
 }

@@ -1,13 +1,13 @@
 <?php
-// DO NOT include the controller here - the controller includes this view
-// The controller has already set all necessary variables
 
-// Security check: Ensure this file is accessed through the controller
-if (!isset($user) || !isset($profile_pic_src)) {
-    // Redirect to controller if accessed directly
-    header("Location: ../../controllers/profile_admin_controller.php");
-    exit();
-}
+    // Include constants for consistent path handling
+    include_once __DIR__ . '/../../../config/constants.php';
+
+    if (!isset($user) || !isset($profile_pic_src)) {
+        // Redirect to controller if accessed directly
+        header("Location: " . BASE_URL . "app/controllers/profile_admin_controller.php");
+        exit();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +16,7 @@ if (!isset($user) || !isset($profile_pic_src)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Link to the external CSS file -->
-    <link rel="stylesheet" href="../../public/assets/css/profile.css"> 
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/assets/css/profile.css">
     <title>Profile - <?php echo ucfirst($user['role']); ?></title>
 </head>
 <body>
@@ -48,7 +48,7 @@ if (!isset($user) || !isset($profile_pic_src)) {
                 <button class="close-btn" id="closeModalBtn">&times;</button>
             </div>
 
-            <form action="./../../controllers/profile_details_edit.php" method="post">
+            <form action="<?php echo BASE_URL; ?>app/controllers/profile_details_edit.php" method="post">
                 <div class="form-group">
                     <label for="full_name">Full Name:</label>
                     <input type="text" name="full_name" id="full_name" placeholder="Enter your full name" value="<?php echo htmlspecialchars($user['full_name']); ?>" required>
@@ -104,7 +104,7 @@ if (!isset($user) || !isset($profile_pic_src)) {
                 <button class="close-btn" id="closeImageModalBtn">&times;</button>
             </div>
 
-            <form action="../../controllers/profile_pic_update.php" method="post" id="imageUploadForm" enctype="multipart/form-data">
+            <form action="<?php echo BASE_URL; ?>app/controllers/profile_pic_update.php" method="post" id="imageUploadForm" enctype="multipart/form-data">
                 <div class="image-upload-area">
                     <?php 
                     // Check if using default profile picture
@@ -118,7 +118,7 @@ if (!isset($user) || !isset($profile_pic_src)) {
                         </div>
                     <?php else: ?>
                         <div class="image-preview-container2">
-                            <a href="../../controllers/profile_pic_delete.php" title="Click to delete profile picture">
+                            <a href="javascript:void(0)" onclick="deleteProfileImage(event)" title="Click to delete profile picture">
                                 <img src="<?php echo $profile_pic_src; ?>" alt="Current Profile" id="imagePreview" class="profile-preview">
                             </a>
                         </div>
@@ -162,7 +162,7 @@ if (!isset($user) || !isset($profile_pic_src)) {
                     <li><a href="#" data-view="systemDashboardView" id="systemDashboardLink">System Dashboard</a></li>
                     <li><a href="#" data-view="notificationSettingView" id="notificationSettingLink">Notification Setting</a></li>
                     <li><a href="#" data-view="settingsView" id="settingsLink">Settings</a></li>
-                    <li class="logout-btn"><a href="../../controllers/logout.php">Logout</a></li>
+                    <li class="logout-btn"><a href="<?php echo BASE_URL; ?>app/controllers/logout.php">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -251,7 +251,7 @@ if (!isset($user) || !isset($profile_pic_src)) {
     </div>
 
     <!-- Link to the external JavaScript file -->
-    <script src="../../public/assets/js/profile.js"></script> 
+    <script src="<?php echo BASE_URL; ?>public/assets/js/profile.js"></script>
 
 </body>
 </html>
