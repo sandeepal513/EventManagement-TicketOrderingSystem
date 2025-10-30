@@ -84,7 +84,7 @@ if (!headers_sent()) {
                 od.quantity,
                 od.unit_price,
                 od.subtotal,
-                tt.ticket_name
+                tt.ticket_type
             FROM order_details od
             JOIN ticket_types tt ON od.ticket_type_id = tt.ticket_type_id
             WHERE od.order_id = ?

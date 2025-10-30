@@ -1,9 +1,113 @@
 // ===== checkout.js =====
-// Form validation and payment processing for checkout page
+// Form validation, payment processing, and cart management
+// UPDATED FOR NEW TICKET_TYPES SCHEMA
+
+let selectedTickets = [];
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeCheckout();
+    loadCartFromSession();
 });
+
+// ===== CART MANAGEMENT FUNCTIONS =====
+
+function addToCart(ticketTypeId, ticketType, price, quantity) {
+    const numQuantity = parseInt(quantity);
+    
+    if (numQuantity <= 0) {
+        alert('Please enter a valid quantity');
+        return;
+    }
+    
+    const existing = selectedTickets.find(t => t.id === ticketTypeId);
+    
+    if (existing) {
+        existing.quantity += numQuantity;
+    } else {
+        selectedTickets.push({
+            id: ticketTypeId,
+            type: ticketType,  // GA or VIP
+            price: parseFloat(price),
+            quantity: numQuantity
+        });
+    }
+    
+    // Save to sessionStorage
+    sessionStorage.setItem('selectedTickets', JSON.stringify(selectedTickets));
+    updateCartDisplay();
+    alert(numQuantity + ' ticket(s) added to cart!');
+}
+
+function removeFromCart(ticketTypeId) {
+    selectedTickets = selectedTickets.filter(t => t.id !== ticketTypeId);
+    sessionStorage.setItem('selectedTickets', JSON.stringify(selectedTickets));
+    updateCartDisplay();
+}
+
+function updateCartDisplay() {
+    const summaryItems = document.getElementById('summaryItems');
+    
+    if (!summaryItems) return;
+    
+    summaryItems.innerHTML = '';
+    
+    if (selectedTickets.length === 0) {
+        summaryItems.innerHTML = '<p style="color: #999; text-align: center;">No items in cart</p>';
+        updateTotals([]);
+        return;
+    }
+    
+    selectedTickets.forEach(ticket => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'summary-item';
+        itemDiv.innerHTML = `
+            <div style="flex: 1;">
+                <span>${ticket.quantity}x ${ticket.type} - $${parseFloat(ticket.price).toFixed(2)}</span><br/>
+                <span style="color: #666; font-size: 12px;">Subtotal: $${(ticket.quantity * ticket.price).toFixed(2)}</span>
+            </div>
+            <button type="button" onclick="removeFromCart(${ticket.id})" style="background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Remove</button>
+        `;
+        summaryItems.appendChild(itemDiv);
+    });
+    
+    updateTotals(selectedTickets);
+}
+
+function loadCartFromSession() {
+    const cartData = sessionStorage.getItem('selectedTickets');
+    
+    if (cartData) {
+        selectedTickets = JSON.parse(cartData);
+        updateCartDisplay();
+    }
+}
+
+function updateTotals(tickets) {
+    const TAX_RATE = 0.10;
+    const PROCESSING_FEE = 10.00;
+    
+    let subtotal = 0;
+    tickets.forEach(ticket => {
+        subtotal += ticket.quantity * ticket.price;
+    });
+    
+    const tax = subtotal * TAX_RATE;
+    const total = subtotal + tax + PROCESSING_FEE;
+    
+    const subtotalEl = document.getElementById('subtotal');
+    const taxEl = document.getElementById('tax');
+    const feeEl = document.getElementById('processingFee');
+    const totalEl = document.getElementById('totalAmount');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+    if (taxEl) taxEl.textContent = `$${tax.toFixed(2)}`;
+    if (feeEl) feeEl.textContent = `$${PROCESSING_FEE.toFixed(2)}`;
+    if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
+    if (submitBtn) submitBtn.textContent = `Complete Purchase - $${total.toFixed(2)}`;
+}
+
+// ===== FORM INITIALIZATION & VALIDATION =====
 
 function initializeCheckout() {
     const form = document.getElementById('checkoutForm');
@@ -61,6 +165,12 @@ function initializeCheckout() {
 }
 
 function validateAndSubmit() {
+    // Check if cart is empty
+    if (selectedTickets.length === 0) {
+        alert('Your cart is empty! Please select tickets.');
+        return false;
+    }
+
     // Get form values
     const fullName = document.getElementById('fullName')?.value?.trim();
     const email = document.getElementById('email')?.value?.trim();
@@ -92,11 +202,6 @@ function validateAndSubmit() {
         errors.push('Please enter a valid email address');
     }
 
-    // Card number validation (Luhn algorithm)
-    // if (cardNumber && !isValidCardNumber(cardNumber)) {
-    //     errors.push('Please enter a valid card number');
-    // }
-
     // Expiry date validation
     if (expiry && !isValidExpiry(expiry)) {
         errors.push('Please enter a valid expiry date (MM/YY)');
@@ -111,6 +216,12 @@ function validateAndSubmit() {
     if (errors.length > 0) {
         alert('Please fix the following errors:\n\n' + errors.join('\n'));
         return false;
+    }
+
+    // Add cart data to form before submission
+    const cartInput = document.getElementById('cartData');
+    if (cartInput) {
+        cartInput.value = JSON.stringify(selectedTickets);
     }
 
     // If validation passes, submit form
@@ -179,10 +290,26 @@ function showLoadingState() {
 function hideLoadingState() {
     const submitBtn = document.querySelector('button[type="submit"]');
     if (submitBtn) {
+        const total = calculateTotal();
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Complete Purchase - $284.97';
+        submitBtn.textContent = `Complete Purchase - $${total}`;
         submitBtn.style.opacity = '1';
     }
+}
+
+function calculateTotal() {
+    const TAX_RATE = 0.10;
+    const PROCESSING_FEE = 10.00;
+    
+    let subtotal = 0;
+    selectedTickets.forEach(ticket => {
+        subtotal += ticket.quantity * ticket.price;
+    });
+    
+    const tax = subtotal * TAX_RATE;
+    const total = subtotal + tax + PROCESSING_FEE;
+    
+    return total.toFixed(2);
 }
 
 // Prevent form submission on Enter key in card fields

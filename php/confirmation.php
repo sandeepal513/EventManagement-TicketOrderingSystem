@@ -1,24 +1,18 @@
 <?php
 // ===== confirmation.php =====
-// Order Confirmation Page
-// Displays order details after successful checkout
-
+// Order Confirmation Page with QR Codes
 session_start();
-
-// Include database configuration
 require_once './connection.php';
 
-// Check if order_id is provided
-$order_id = $_GET['order_id'] ?? $_SESSION['order_id'] ?? null;
+// Get order_id from URL
+$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : null;
 
 if (!$order_id) {
-    header('Location: checkout.php');
-    exit;
+    die("Order not found. Invalid order ID.");
 }
 
-// ===== FETCH ORDER DETAILS =====
 try {
-    // Get Order Information
+    // === FETCH ORDER DETAILS ===
     $stmt = $conn->prepare("
         SELECT 
             o.order_id,
@@ -31,7 +25,6 @@ try {
             o.tax,
             o.processing_fee,
             o.payment_status,
-            o.payment_method,
             o.order_date,
             o.billing_address,
             o.billing_city,
@@ -51,15 +44,14 @@ try {
     $order = $result->fetch_assoc();
     $stmt->close();
     
-    // Get Order Details (Tickets)
+    // === FETCH ORDER DETAILS (Tickets) ===
     $stmt = $conn->prepare("
         SELECT 
             od.order_detail_id,
             od.quantity,
             od.unit_price,
             od.subtotal,
-            tt.ticket_name,
-            tt.description
+            tt.ticket_type
         FROM order_details od
         JOIN ticket_types tt ON od.ticket_type_id = tt.ticket_type_id
         WHERE od.order_id = ?
@@ -75,17 +67,17 @@ try {
     }
     $stmt->close();
     
-    // Get Attendees (with QR codes)
+    // === FETCH ATTENDEES (with QR codes) ===
     $stmt = $conn->prepare("
         SELECT 
             a.attendee_id,
             a.attendee_name,
             a.email,
             a.qr_code,
-            a.unique_ticket_hash,
-            a.ticket_number
+            a.unique_ticket_hash
         FROM attendees a
         WHERE a.order_id = ?
+        ORDER BY a.attendee_id ASC
     ");
     
     $stmt->bind_param("i", $order_id);
@@ -99,17 +91,16 @@ try {
     $stmt->close();
     
 } catch (Exception $e) {
-    error_log("Error fetching order details: " . $e->getMessage());
-    die("Error loading order details. Please contact support.");
+    error_log("Error fetching order: " . $e->getMessage());
+    die("Error loading order. Please contact support.");
 }
 
-// Format order date
+// Format dates
 $orderDate = new DateTime($order['order_date']);
 $formattedDate = $orderDate->format('M d, Y');
 $formattedTime = $orderDate->format('h:i A');
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,6 +108,8 @@ $formattedTime = $orderDate->format('h:i A');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Confirmation - Event Ticketing System</title>
     <link rel="stylesheet" href="./../css/confirmation.css">
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -159,14 +152,12 @@ $formattedTime = $orderDate->format('h:i A');
                         <span>#<?php echo str_pad($order['order_id'], 6, '0', STR_PAD_LEFT); ?></span>
                     </div>
                     <div class="details-row">
-                        <span class="label">Order Date & Time</span>
+                        <span class="label">Order Date</span>
                         <span><?php echo $formattedDate . ' at ' . $formattedTime; ?></span>
                     </div>
                     <div class="details-row">
                         <span class="label">Payment Status</span>
-                        <span class="status-badge status-<?php echo strtolower($order['payment_status']); ?>">
-                            <?php echo ucfirst($order['payment_status']); ?>
-                        </span>
+                        <span style="color: #27ae60; font-weight: bold;">✓ <?php echo ucfirst($order['payment_status']); ?></span>
                     </div>
                     <div class="details-row">
                         <span class="label">Total Amount</span>
@@ -183,7 +174,7 @@ $formattedTime = $orderDate->format('h:i A');
                             <span>$<?php echo number_format($order['subtotal'], 2); ?></span>
                         </div>
                         <div class="breakdown-row">
-                            <span>Tax</span>
+                            <span>Tax (10%)</span>
                             <span>$<?php echo number_format($order['tax'], 2); ?></span>
                         </div>
                         <div class="breakdown-row">
@@ -204,11 +195,8 @@ $formattedTime = $orderDate->format('h:i A');
                         <?php foreach ($tickets as $ticket): ?>
                             <div class="ticket-item">
                                 <div class="ticket-info">
-                                    <h4><?php echo htmlspecialchars($ticket['ticket_name']); ?></h4>
-                                    <?php if (!empty($ticket['description'])): ?>
-                                        <p class="ticket-description"><?php echo htmlspecialchars($ticket['description']); ?></p>
-                                    <?php endif; ?>
-                                    <p class="ticket-quantity">Quantity: <?php echo $ticket['quantity']; ?></p>
+                                    <h4><?php echo htmlspecialchars($ticket['ticket_type']); ?></h4>
+                                    <p>Quantity: <?php echo $ticket['quantity']; ?></p>
                                 </div>
                                 <span class="ticket-price">$<?php echo number_format($ticket['subtotal'], 2); ?></span>
                             </div>
@@ -219,28 +207,20 @@ $formattedTime = $orderDate->format('h:i A');
                 <!-- Digital Tickets / QR Codes -->
                 <?php if (!empty($attendees)): ?>
                 <div class="card">
-                    <h3>Digital Tickets</h3>
-                    <p class="subtitle">Each attendee has a unique ticket. Present it at the event entrance or scan the QR code.</p>
+                    <h3>🎫 Digital Tickets</h3>
+                    <p class="subtitle">Each attendee has a unique QR code. Present it at the event entrance or scan to check in.</p>
                     <div class="tickets-grid">
-                        <?php foreach ($attendees as $attendee): ?>
+                        <?php foreach ($attendees as $index => $attendee): ?>
                             <div class="ticket-qr">
-                                <?php if (!empty($attendee['qr_code'])): ?>
-                                    <div class="qr-code-container">
-                                        <img src="<?php echo htmlspecialchars($attendee['qr_code']); ?>" 
-                                             alt="QR Code for <?php echo htmlspecialchars($attendee['attendee_name']); ?>"
-                                             class="qr-code">
-                                    </div>
-                                <?php else: ?>
-                                    <div class="qr-placeholder">
-                                        📱 QR CODE<br>
-                                        <small><?php echo htmlspecialchars($attendee['unique_ticket_hash']); ?></small>
-                                    </div>
-                                <?php endif; ?>
+                                <!-- QR Code Container -->
+                                <div class="qr-code-container" id="qr_<?php echo $index; ?>">
+                                    <!-- QR Code will be generated here by JavaScript -->
+                                </div>
                                 <p class="attendee-name"><?php echo htmlspecialchars($attendee['attendee_name']); ?></p>
                                 <p class="attendee-email"><?php echo htmlspecialchars($attendee['email']); ?></p>
-                                <?php if (!empty($attendee['ticket_number'])): ?>
-                                    <p class="ticket-number">Ticket #<?php echo htmlspecialchars($attendee['ticket_number']); ?></p>
-                                <?php endif; ?>
+                                <p class="ticket-hash" style="font-size: 11px; color: #999; word-break: break-all;">
+                                    Ticket ID: <?php echo htmlspecialchars(substr($attendee['unique_ticket_hash'], 0, 16)) . '...'; ?>
+                                </p>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -251,11 +231,11 @@ $formattedTime = $orderDate->format('h:i A');
                 <div class="card info-card">
                     <h3>ℹ️ Next Steps</h3>
                     <ul class="steps-list">
-                        <li>✓ Check your email (<?php echo htmlspecialchars($order['customer_email']); ?>) for ticket details and QR codes</li>
-                        <li>✓ Download or print your tickets</li>
-                        <li>✓ Add event to your calendar</li>
+                        <li>✓ Check your email (<?php echo htmlspecialchars($order['customer_email']); ?>) for ticket confirmation</li>
+                        <li>✓ Download or screenshot your tickets</li>
+                        <li>✓ Save the QR codes to your phone or print them</li>
                         <li>✓ Arrive 15 minutes early on the event date</li>
-                        <li>✓ Show your QR code or ticket at the entrance for check-in</li>
+                        <li>✓ Show your QR code at the entrance for check-in</li>
                     </ul>
                 </div>
 
@@ -266,10 +246,10 @@ $formattedTime = $orderDate->format('h:i A');
 
                 <!-- Download Options -->
                 <div class="card">
-                    <h3>Ticket Options</h3>
+                    <h3>Download Your Tickets</h3>
                     <button class="btn-secondary btn-block" onclick="downloadPDF()">📥 Download PDF</button>
-                    <button class="btn-secondary btn-block" onclick="resendEmail()">📧 Resend Email</button>
                     <button class="btn-secondary btn-block" onclick="printPage()">🖨️ Print</button>
+                    <button class="btn-secondary btn-block" onclick="resendEmail()">📧 Resend Email</button>
                 </div>
 
                 <!-- Billing Information -->
@@ -296,11 +276,11 @@ $formattedTime = $orderDate->format('h:i A');
                     <h3>Order Summary</h3>
                     <div class="summary-box">
                         <p class="summary-item">
-                            <span>Tickets:</span>
+                            <span>Total Tickets:</span>
                             <strong><?php echo count($attendees); ?></strong>
                         </p>
                         <p class="summary-item">
-                            <span>Total:</span>
+                            <span>Total Amount:</span>
                             <strong>$<?php echo number_format($order['total_amount'], 2); ?></strong>
                         </p>
                         <p class="summary-item">
@@ -315,11 +295,27 @@ $formattedTime = $orderDate->format('h:i A');
 
     </div>
 
-    <script src="js/confirmation.js"></script>
     <script>
-        // Get order ID for actions
-        const orderId = <?php echo $order_id; ?>;
-        const confirmationCode = "<?php echo $order['confirmation_code']; ?>";
+        // Generate QR codes for each attendee
+        const attendees = <?php echo json_encode($attendees); ?>;
+        
+        attendees.forEach((attendee, index) => {
+            const qrContainer = document.getElementById('qr_' + index);
+            
+            // Create QR code data (could be ticket hash or order info)
+            const qrData = attendee.unique_ticket_hash || 
+                          ('<?php echo $order['order_id']; ?>' + '-' + attendee.attendee_id);
+            
+            // Generate QR code
+            new QRCode(qrContainer, {
+                text: qrData,
+                width: 150,
+                height: 150,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        });
 
         // Copy confirmation code to clipboard
         function copyToClipboard() {
@@ -333,18 +329,24 @@ $formattedTime = $orderDate->format('h:i A');
 
         // Download PDF
         function downloadPDF() {
-            window.location.href = './generate_pdf.php?order_id=' + orderId;
+            alert('PDF download feature coming soon!');
+            // Implement PDF generation here
         }
 
-        // Resend Email
+        // Print page
+        function printPage() {
+            window.print();
+        }
+
+        // Resend email
         function resendEmail() {
             if (confirm('Are you sure you want to resend the confirmation email?')) {
-                fetch('php/send_email.php', {
+                fetch('./../php/resend_email.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
-                    body: 'action=resend&order_id=' + orderId
+                    body: 'order_id=<?php echo $order['order_id']; ?>'
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -356,11 +358,6 @@ $formattedTime = $orderDate->format('h:i A');
                 })
                 .catch(error => alert('Error: ' + error));
             }
-        }
-
-        // Print Page
-        function printPage() {
-            window.print();
         }
     </script>
 </body>
