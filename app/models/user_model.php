@@ -1,0 +1,42 @@
+<?php
+
+// No need to include connection here since controller already includes it
+// include_once __DIR__ . '/../../config/connection.php';
+
+/**
+ * Get user by ID
+ * @param mysqli $conn Database connection
+ * @param int $user_id User ID
+ * @return array|null User data or null if not found
+ */
+function getUserById($conn, $user_id) {
+    // Check if connection is valid
+    if (!$conn || $conn->connect_error) {
+        error_log("Database connection error in getUserById");
+        return null;
+    }
+    
+    $stmt = $conn->prepare("SELECT * FROM users WHERE user_id = ?");
+    
+    if (!$stmt) {
+        error_log("Prepare failed in getUserById: " . $conn->error);
+        return null;
+    }
+    
+    $stmt->bind_param("i", $user_id);
+    
+    if (!$stmt->execute()) {
+        error_log("Execute failed in getUserById: " . $stmt->error);
+        $stmt->close();
+        return null;
+    }
+    
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+    
+    $stmt->close();
+    
+    return $user;
+}
+
+?>
