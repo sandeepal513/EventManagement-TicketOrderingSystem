@@ -1,0 +1,152 @@
+
+   
+       body {
+            font-family: 'Poppins', sans-serif;
+            background: #f7f9fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2.2rem;
+        }
+
+        .msg {
+            text-align: center;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+
+        .msg.success {
+            background: #e3fcef;
+            color: #27ae60;
+            border: 1px solid #27ae60;
+        }
+
+        .status {
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 0.9em;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .status.pending {
+            background: #ffecb3;
+            color: #d4a107;
+        }
+
+        .status.approved {
+            background: #d4edda;
+            color: #28a745;
+        }
+
+        .status.rejected {
+            background: #f8d7da;
+            color: #e74c3c;
+        }
+
+        .btn {
+            font-weight: 600;
+            border-radius: 6px;
+            text-decoration: none;
+            padding: 10px 20px;
+            color: #fff;
+            transition: background 0.3s ease;
+            font-size: medium;
+        }
+
+        .btn-approve {
+            background: #28a745;
+        }
+
+        .btn-reject {
+            background: #dc3545;
+        }
+
+        .btn-approve:hover {
+            background: #218838;
+        }
+
+        .btn-reject:hover {
+            background: #c82333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 16px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #2897e1;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f9fbff;
+        }
+
+        .search-form {
+            margin-bottom: 30px;
+        }
+
+        .search-form .form-label {
+            font-weight: 600;
+            color: #74a2cf;
+        }
+
+        .search-form .form-select,
+        .search-form .form-control {
+            border-radius: 8px;
+            box-shadow: none;
+        }
+
+        .search-form button {
+            background-color: #51a5dd;
+            color: white;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: none;
+        }
+
+        .search-form button:hover {
+            background-color: #4ca0d8;
+        }
+
+        .btn-delete {
+            
+            background-color: #e74c3c;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 10px 16px;
+            height: auto;
+    
+        }
+
+        .btn-delete:hover {
+            background-color: #c95a4e;
+        }
+
+     
