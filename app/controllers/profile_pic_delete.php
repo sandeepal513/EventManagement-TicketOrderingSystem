@@ -15,9 +15,9 @@
     // Determine the profile page to redirect back to
     $role = $_SESSION['role'] ?? 'user';
     $profile_page = match ($role) {
-        'admin' => BASE_URL . 'app/controllers/profile_admin_controller.php',
-        'organizer' => BASE_URL . 'app/controllers/profile_admin_controller.php',
-        default => BASE_URL . 'app/controllers/profile_admin_controller.php',
+        'admin' => BASE_URL . 'app/controllers/profile_controller.php',
+        'organizer' => BASE_URL . 'app/controllers/profile_controller.php',
+        default => BASE_URL . 'app/controllers/profile_controller.php',
     };
 
     $user_id = $_SESSION['user_id'];

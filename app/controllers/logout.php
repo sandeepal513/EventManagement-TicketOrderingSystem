@@ -6,7 +6,12 @@
 
     $_SESSION = [];
     session_destroy();
-    header("Location: " . BASE_URL . "views/auth/login.php?status=logged_out");
+
+    // Start a new session to set the logout success message
+    session_start();
+    $_SESSION['success'] = "You have been logged out successfully.";
+
+    header("Location: " . BASE_URL . "app/views/auth/login_view.php");
     exit;
 
 ?>

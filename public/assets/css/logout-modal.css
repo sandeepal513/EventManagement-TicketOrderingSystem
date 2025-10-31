@@ -1,0 +1,248 @@
+/* ============================================
+   LOGOUT MODAL STYLES
+   ============================================ */
+
+/* Modal Backdrop */
+.logout-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 9999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.logout-modal.show {
+    display: flex;
+    opacity: 1;
+}
+
+/* Modal Content Box */
+.logout-modal-content {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 0;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    width: 480px;
+    max-width: 90%;
+    position: relative;
+    transform: scale(0.7) translateY(-50px);
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    overflow: hidden;
+}
+
+.logout-modal.show .logout-modal-content {
+    transform: scale(1) translateY(0);
+}
+
+/* Modal Inner Container */
+.logout-modal-inner {
+    background-color: #ffffff;
+    padding: 40px 30px 30px;
+    border-radius: 20px;
+    text-align: center;
+    position: relative;
+}
+
+/* Warning Icon */
+.logout-icon {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 25px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(238, 90, 111, 0.3);
+    animation: pulse-warning 2s ease-in-out infinite;
+    position: relative;
+}
+
+.logout-icon::before {
+    content: "!";
+    font-size: 50px;
+    font-weight: bold;
+    color: white;
+    line-height: 1;
+}
+
+@keyframes pulse-warning {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 10px 25px rgba(238, 90, 111, 0.3);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 10px 35px rgba(238, 90, 111, 0.5);
+    }
+}
+
+/* Modal Header */
+.logout-modal-header {
+    margin-bottom: 15px;
+}
+
+.logout-modal-header h3 {
+    color: #2c3e50;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+/* Modal Body */
+.logout-modal-body {
+    margin-bottom: 35px;
+}
+
+.logout-modal-body p {
+    color: #5a6c7d;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Button Container */
+.logout-modal-footer {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+/* Base Button Styles */
+.logout-modal-footer button,
+.logout-modal-footer a {
+    flex: 1;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Cancel Button */
+.logout-cancel-btn {
+    background-color: #ecf0f1;
+    color: #34495e;
+    border: 2px solid #bdc3c7;
+}
+
+.logout-cancel-btn:hover {
+    background-color: #d5dbdb;
+    border-color: #95a5a6;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.logout-cancel-btn:active {
+    transform: translateY(0);
+}
+
+/* Confirm/Logout Button */
+.logout-confirm-btn {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+    border: 2px solid transparent;
+}
+
+.logout-confirm-btn:hover {
+    background: linear-gradient(135deg, #ee5a6f 0%, #d63447 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(238, 90, 111, 0.4);
+}
+
+.logout-confirm-btn:active {
+    transform: translateY(0);
+}
+
+/* ============================================
+   DARK MODE SUPPORT
+   ============================================ */
+
+html.dark-mode .logout-modal {
+    background-color: rgba(0, 0, 0, 0.85);
+}
+
+html.dark-mode .logout-modal-content {
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+}
+
+html.dark-mode .logout-modal-inner {
+    background-color: #1a202c;
+}
+
+html.dark-mode .logout-modal-header h3 {
+    color: #e2e8f0;
+}
+
+html.dark-mode .logout-modal-body p {
+    color: #a0aec0;
+}
+
+html.dark-mode .logout-cancel-btn {
+    background-color: #2d3748;
+    color: #e2e8f0;
+    border-color: #4a5568;
+}
+
+html.dark-mode .logout-cancel-btn:hover {
+    background-color: #374151;
+    border-color: #6b7280;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 600px) {
+    .logout-modal-content {
+        width: 95%;
+        margin: 20px;
+    }
+
+    .logout-modal-inner {
+        padding: 30px 20px 25px;
+    }
+
+    .logout-icon {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 20px;
+    }
+
+    .logout-icon::before {
+        font-size: 40px;
+    }
+
+    .logout-modal-header h3 {
+        font-size: 1.5rem;
+    }
+
+    .logout-modal-body p {
+        font-size: 0.95rem;
+    }
+
+    .logout-modal-footer {
+        flex-direction: column;
+    }
+
+    .logout-modal-footer button,
+    .logout-modal-footer a {
+        width: 100%;
+    }
+}

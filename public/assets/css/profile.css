@@ -407,7 +407,7 @@ html.dark-mode .file-drop-zone.highlight {
 }
 
 .profile-pic:hover {
-    background-image: url('/EMS_version_01/EventManagement-TicketOrderingSystem/public/assets/images/sys_img/camera_icon.png');
+    background-image: url('/EMS_version_01/EventManagement-TicketOrderingSystem/public/assets/images/sys_img/change_profile.png');
     border-color: #FFC107;
 }
 
@@ -963,6 +963,137 @@ html.dark-mode .cancel-delete-btn {
 }
 
 html.dark-mode .cancel-delete-btn:hover {
+    background-color: #2a2a3e;
+    border-color: #44445d;
+}
+
+/* ------------------------------------------- */
+/* LOGOUT CONFIRMATION MODAL STYLES */
+/* ------------------------------------------- */
+
+.logout-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 3000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.logout-modal.show {
+    display: flex;
+    opacity: 1;
+}
+
+.logout-modal-content {
+    background-color: #ffffff;
+    padding: 40px 35px;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    width: 450px;
+    max-width: 90%;
+    text-align: center;
+    transform: scale(0.9) translateY(-20px);
+    transition: transform 0.3s ease-in-out;
+}
+
+.logout-modal.show .logout-modal-content {
+    transform: scale(1) translateY(0);
+}
+
+.logout-modal-header h3 {
+    color: #333;
+    margin: 0 0 15px 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.logout-modal-body p {
+    color: #666;
+    margin: 0 0 30px 0;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.logout-modal-footer {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.logout-cancel-btn {
+    flex: 1;
+    padding: 12px 25px;
+    border: 2px solid #ddd;
+    background-color: #ffffff;
+    color: #555;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logout-cancel-btn:hover {
+    background-color: #f5f5f5;
+    border-color: #bbb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logout-confirm-btn {
+    flex: 1;
+    padding: 12px 25px;
+    border: none;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(238, 90, 111, 0.3);
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.logout-confirm-btn:hover {
+    background: linear-gradient(135deg, #ee5a6f 0%, #ff6b6b 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(238, 90, 111, 0.4);
+}
+
+.logout-confirm-btn:active {
+    transform: translateY(0);
+}
+
+/* Dark mode support for logout modal */
+html.dark-mode .logout-modal-content {
+    background-color: #252a42;
+}
+
+html.dark-mode .logout-modal-header h3 {
+    color: #e5e5f7;
+}
+
+html.dark-mode .logout-modal-body p {
+    color: #b5c7e0;
+}
+
+html.dark-mode .logout-cancel-btn {
+    background-color: #1a1a2e;
+    border-color: #33334d;
+    color: #e5e5f7;
+}
+
+html.dark-mode .logout-cancel-btn:hover {
     background-color: #2a2a3e;
     border-color: #44445d;
 }

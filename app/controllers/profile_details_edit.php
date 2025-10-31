@@ -15,9 +15,9 @@
     // Define the redirection page based on the user's role
     $role = $_SESSION['role'] ?? 'user';
     $profile_page = match ($role) {
-        'admin' => BASE_URL . 'app/controllers/profile_admin_controller.php',
-        'organizer' => BASE_URL . 'app/controllers/profile_admin_controller.php',
-        default => BASE_URL . 'app/controllers/profile_admin_controller.php',
+        'admin' => BASE_URL . 'app/controllers/profile_controller.php',
+        'organizer' => BASE_URL . 'app/controllers/profile_controller.php',
+        'user' => BASE_URL . 'app/controllers/profile_controller.php',
     };
 
     // Exit if not a POST request

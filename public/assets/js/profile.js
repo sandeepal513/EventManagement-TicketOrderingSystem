@@ -343,12 +343,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // --- Delete Profile Image Confirmation ---
-        // Find the delete link in the image preview container
-        const deleteImageLink = document.querySelector('.image-preview-container2 a');
-        if (deleteImageLink) {
-            deleteImageLink.addEventListener('click', deleteProfileImage);
-        }
-
         if(selectBtn) {
             selectBtn.addEventListener('click', () => fileInput.click());
         }
@@ -436,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const isHidden = input.type === 'password';
 
             input.type = isHidden ? 'text' : 'password';
-            btn.textContent = isHidden ? '🙈' : '👁'; // swap icon
+            btn.textContent = isHidden ? '🙈' : '👁️'; // swap icon
             btn.classList.toggle('active', isHidden);
         });
     });

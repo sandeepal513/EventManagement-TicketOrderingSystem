@@ -5,7 +5,7 @@
 
     if (!isset($user) || !isset($profile_pic_src)) {
         // Redirect to controller if accessed directly
-        header("Location: " . BASE_URL . "app/controllers/profile_admin_controller.php");
+        header("Location: " . BASE_URL . "app/controllers/profile_controller.php");
         exit();
     }
 ?>
@@ -17,6 +17,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Link to the external CSS file -->
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/assets/css/profile.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/assets/css/logout-modal.css">
     <title>Profile - <?php echo ucfirst($user['role']); ?></title>
 </head>
 <body>
@@ -162,7 +163,7 @@
                     <li><a href="#" data-view="systemDashboardView" id="systemDashboardLink">System Dashboard</a></li>
                     <li><a href="#" data-view="notificationSettingView" id="notificationSettingLink">Notification Setting</a></li>
                     <li><a href="#" data-view="settingsView" id="settingsLink">Settings</a></li>
-                    <li class="logout-btn"><a href="<?php echo BASE_URL; ?>app/controllers/logout.php">Logout</a></li>
+                    <li class="logout-btn"><a href="#" onclick="logoutUser(event)" title="Click to logout">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -250,8 +251,23 @@
         </div>
     </div>
 
-    <!-- Link to the external JavaScript file -->
+    <!-- Link to the external JavaScript files -->
+    <script>
+        // Make BASE_URL available to JavaScript
+        const BASE_URL = '<?php echo BASE_URL; ?>';
+    </script>
     <script src="<?php echo BASE_URL; ?>public/assets/js/profile.js"></script>
+    <script src="<?php echo BASE_URL; ?>public/assets/js/logout-modal.js"></script>
+
+    <script>
+        // Initialize logout functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoutLink = document.querySelector('.logout-btn a');
+            if (logoutLink) {
+                logoutLink.addEventListener('click', logoutUser);
+            }
+        });
+    </script>
 
 </body>
 </html>
