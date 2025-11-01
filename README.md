@@ -1,2 +1,0 @@
-# EventManagement-TicketOrderingSystem 
-edit
