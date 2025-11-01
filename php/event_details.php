@@ -784,11 +784,7 @@ $days_until = $now->diff($event_datetime)->days;
                  class="social-btn facebook">
                 <i class="fab fa-facebook-f"></i>
               </a>
-              <a href="https://twitter.com/intent/tweet?url=<?= urlencode($_SERVER['REQUEST_URI']) ?>&text=<?= urlencode($event['event_name']) ?>" 
-                 target="_blank" 
-                 class="social-btn twitter">
-                <i class="fab fa-x-twitter"></i>
-              </a>
+              
               <a href="https://www.linkedin.com/shareArticle?url=<?= urlencode($_SERVER['REQUEST_URI']) ?>&title=<?= urlencode($event['event_name']) ?>" 
                  target="_blank" 
                  class="social-btn linkedin">
@@ -881,7 +877,7 @@ $days_until = $now->diff($event_datetime)->days;
             <?php
               endwhile;
             else:
-              echo "<p>    No other events  found.</p>";
+              echo "<p >   No other events  found.</p>";
             endif;
             ?>
           </div>
