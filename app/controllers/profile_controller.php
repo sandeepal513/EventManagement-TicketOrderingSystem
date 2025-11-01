@@ -9,7 +9,7 @@
 
     // Check if user is logged in
     if (!isset($_SESSION['user_id'])) {
-        header("Location: " . BASE_URL . "views/auth/login.php");
+        header("Location: " . BASE_URL . "views/auth/login_view.php");
         exit();
     }
 
@@ -21,7 +21,7 @@
     if (!$user) {
         // User not found, redirect to login
         session_destroy();
-        header("Location: " . BASE_URL . "views/auth/login.php");
+        header("Location: " . BASE_URL . "views/auth/login_view.php");
         exit();
     }
 
@@ -48,7 +48,7 @@
     } else {
         // Invalid role, log out
         session_destroy();
-        header("Location: " . BASE_URL . "views/auth/login.php");
+        header("Location: " . BASE_URL . "views/auth/login_view.php");
         exit();
     }
 ?>

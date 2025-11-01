@@ -17,7 +17,7 @@
     $profile_page = match ($role) {
         'admin' => BASE_URL . 'app/controllers/profile_controller.php',
         'organizer' => BASE_URL . 'app/controllers/profile_controller.php',
-        default => BASE_URL . 'app/controllers/profile_controller.php',
+        'user' => BASE_URL . 'app/controllers/profile_controller.php',
     };
 
     $user_id = $_SESSION['user_id'];

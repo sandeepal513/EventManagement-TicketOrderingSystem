@@ -8,6 +8,8 @@
         header("Location: " . BASE_URL . "app/controllers/profile_controller.php");
         exit();
     }
+
+    include_once ROOT . '/app/views/layouts/navbar.php';
 ?>
 
 <!DOCTYPE html>
@@ -18,6 +20,7 @@
     <!-- Link to the external CSS file -->
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/assets/css/profile.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/assets/css/logout-modal.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/assets/css/navbar.css">
     <title>Profile - <?php echo ucfirst($user['role']); ?></title>
 </head>
 <body>
@@ -185,7 +188,7 @@
                         <tr><th>Name</th><td><?php echo htmlspecialchars($user['full_name']); ?></td></tr>
                         <tr><th>Email</th><td><?php echo htmlspecialchars($user['email']); ?></td></tr>
                         <tr><th>Mobile No</th><td><?php echo htmlspecialchars($user['phone']); ?></td></tr>
-                        <tr><th>Account Role</th><td><?php echo ucfirst($user['role']); ?></td></tr>
+                        <tr><th>Account Created At</th><td><?php echo ucfirst(date('Y-m-d', strtotime($user['created_at']))); ?></td></tr>
                     </table>
                 </div>
             </div>

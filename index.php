@@ -1,6 +1,6 @@
 <?php
     include_once './config/constants.php';
-    session_start();
+    include_once ROOT . '/app/views/layouts/navbar.php';
 ?>
 
 <!DOCTYPE html>
@@ -10,46 +10,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventSphere - Find and Book Events</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/assets/css/home.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/assets/css/navbar.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/assets/css/footer.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="logo">
-            <h1>EventSphere</h1>
-        </div>
-        <ul class="nav-links">
-            <li><a href="#" class="active">Home</a></li>
-            <li><a href="#">Events</a></li>
-            <li class="dropdown">
-                <a href="#">Categories ▼</a>
-                <div class="dropdown-content">
-                    <a href="#">Music</a>
-                    <a href="#">Sports</a>
-                    <a href="#">Tech</a>
-                </div>
-            </li>
-        </ul>
-        <div class="nav-right">
-            <input type="text" class="search-bar" placeholder="Search events...">
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <?php
-                    include_once ROOT . '/config/connection.php';
-                    include_once ROOT . '/app/models/user_model.php';
-                    $user = getUserById($conn, $_SESSION['user_id']);
-                    $profile_pic_src = !empty($user['profile_pic']) ? BASE_URL . 'public/upload/profile_pic/' . htmlspecialchars($user['profile_pic']) : BASE_URL . 'public/assets/images/sys_img/default_profile.png';
-                ?>
-                <a href="<?php echo BASE_URL; ?>app/controllers/profile_controller.php" class="nav-btn">
-                    <img src="<?php echo $profile_pic_src; ?>" alt="Profile" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 5px;">
-                </a>
-            <?php else: ?>
-                <a href="<?php echo BASE_URL; ?>app/views/auth/login_view.php" class="nav-btn">Login / Sign Up</a>
-            <?php endif; ?>
-            <a href="" class="nav-btn">Contact Us</a>
-            <a href="" class="nav-btn">About Us</a>
-        </div>
-    </nav>
-
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
@@ -133,22 +98,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-links">
-            <a href="#">Home</a>
-            <a href="#">Events</a>
-            <a href="#">Categories</a>
-            <a href="#">Contact Us</a>
-            <a href="#">About Us</a>
-        </div>
-        <div class="social-icons">
-            <a href="#">Facebook</a>
-            <a href="#">Twitter</a>
-            <a href="#">Instagram</a>
-        </div>
-        <p>&copy; 2025 EventSphere. All rights reserved.</p>
-    </footer>
+    <?php include_once ROOT . '/app/views/layouts/footer.php'; ?>
 
     <script src="<?php echo BASE_URL; ?>public/assets/css/home.css"></script>
 </body>
