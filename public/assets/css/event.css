@@ -1,0 +1,143 @@
+
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: #333; 
+    background-color: rgb(170, 206, 242); 
+}
+.bg-custom-blue {
+  background-color: rgb(170, 206, 242);
+}
+.font-poppins {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Headings */
+h2, h3, h4, .card-title {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ------------------------------------------------------------------ */
+/* --- Unique Form Card Styling ---                                   */
+/* ------------------------------------------------------------------ */
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
+}
+
+
+.container > .card {
+    border: none;
+    background: #ffffff; 
+
+    padding: 1rem 0; 
+}
+
+
+.form-control, .form-select {
+    border-radius: 10px; 
+    border: 2px solid #e0e0e0; 
+    padding: 0.5rem 1.25rem; 
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #007bff; 
+    background-color: #f9f9ff; 
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+
+/* Labels */
+.form-label {
+    font-weight: 600;
+    color: #2c3e50 !important; 
+    margin-bottom: 0.2rem; 
+    font-size: 0.95rem;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 10px; 
+    font-weight: 700; /* Bolder text for main action */
+    letter-spacing: 0.5px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-1px); /* Little lift on hover */
+}
+
+.shadow-sm-hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+}
+.shadow-sm-hover:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Current Image Preview in Form */
+.img-thumbnail {
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+
+/* ------------------------------------------------------------------ */
+/* --- Event List Card Styling (Retained) ---                         */
+/* ------------------------------------------------------------------ */
+
+/* Event Card General */
+.event-card {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Aspect Ratio Container */
+.event-image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; 
+    overflow: hidden;
+}
+
+.event-image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Status Badge on Image */
+.event-status {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 0.85rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+/* Event Metadata Styling */
+.event-meta div {
+    margin-bottom: 0.3rem;
+    font-size: 0.95rem;
+}
+
+/* Truncate Description */
+.text-truncate-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+

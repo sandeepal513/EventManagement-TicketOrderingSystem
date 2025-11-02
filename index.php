@@ -11,7 +11,6 @@
     <title>EventSphere - Find and Book Events</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/assets/css/home.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/assets/css/navbar.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/assets/css/footer.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -97,8 +96,6 @@
             </div>
         </div>
     </section>
-
-    <?php include_once ROOT . '/app/views/layouts/footer.php'; ?>
 
     <script src="<?php echo BASE_URL; ?>public/assets/css/home.css"></script>
 </body>

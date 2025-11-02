@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             // --- FAILED! Invalid password ---
             $_SESSION['error'] = "Invalid email or password.";
-            header("Location: " . BASE_URL . "index.php"); 
+            header("Location: " . BASE_URL . "app/views/auth/login_view.php"); 
             exit();
         }
 

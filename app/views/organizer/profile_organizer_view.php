@@ -254,7 +254,6 @@
         </div>
     </div>
 
-
     <!-- Link to the external JavaScript files -->
     <script>
         // Make BASE_URL available to JavaScript

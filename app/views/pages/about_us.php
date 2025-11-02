@@ -11,7 +11,6 @@
     <title>About Us - EventSphere</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/assets/css/navbar.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/assets/css/footer.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/assets/css/about_us.css">
 </head>
 <body>
@@ -88,7 +87,21 @@
         </div>
     </section>
 
-    <?php include_once ROOT . '/app/views/layouts/footer.php'; ?>
+    <footer>
+        <div class="footer-links">
+            <a href="#home">Home</a>
+            <a href="#events">Events</a>
+            <a href="#categories">Categories</a>
+            <a href="#contact">Contact Us</a>
+            <a href="#about">About Us</a>
+        </div>
+        <div class="social-links">
+            <a href="#facebook">Facebook</a>
+            <a href="#twitter">Twitter</a>
+            <a href="#instagram">Instagram</a>
+        </div>
+        <p class="copyright">© 2025 EventSphere. All rights reserved.</p>
+    </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>

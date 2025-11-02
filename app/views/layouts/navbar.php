@@ -5,7 +5,7 @@
             <a href="<?php echo BASE_URL; ?>index.php"><h1>EventSphere</h1></a>
         </div>
         <ul class="nav-links">
-            <li><a href="#">Events</a></li>
+            <li><a href="<?php echo BASE_URL; ?>app/views/pages/event_list_view.php">Events</a></li>
             <li class="dropdown">
                 <a href="#">Categories ▼</a>
                 <div class="dropdown-content">

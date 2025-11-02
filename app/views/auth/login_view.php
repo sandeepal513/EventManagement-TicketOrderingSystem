@@ -30,7 +30,7 @@
                             <?php
                                 // Check for an error message
                                 if (isset($_SESSION['error'])) {
-                                    echo '<div class="alert alert-danger" role="alert">' . $_SESSION['error'] . '</div>';
+                                    echo '<div class="alert alert-danger text-center" role="alert">' . $_SESSION['error'] . '</div>';
                                     unset($_SESSION['error']);
                                 }
 
@@ -39,18 +39,21 @@
                                         . htmlspecialchars($_SESSION['message']) .
                                         '</div>';
 
-                                    unset($_SESSION['message']); // clear session message
+                            
+                                    if ($_SESSION['message'] === 'Login Successfull') {
+                                       unset($_SESSION['message']) ;
                             ?>
 
                                 <!-- Redirect after 3 seconds -->
                                 <script>
                                     setTimeout(function() {
                                         window.location.href = "<?php echo BASE_URL; ?>index.php";
-                                    }, 3000); // 3000 ms = 3 seconds
+                                    }, 3000);
                                 </script>
 
                             <?php
-                            
+                                    }
+                                    unset($_SESSION['message']);
                                 }
                                 
                                 // Check for a success message (e.g., from registration)
